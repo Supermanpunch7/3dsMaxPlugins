@@ -1,0 +1,2 @@
+@echo off
+start "ChamferPro GUI Test" "C:\Program Files\Autodesk\3ds Max 2027\3dsmax.exe" -U MAXScript "C:\Users\ksi\AppData\Local\Autodesk\3dsMax\2027 - 64bit\ENU\3dsMaxPlugins\ChamferPro\ChamferProSmokeTest.ms"

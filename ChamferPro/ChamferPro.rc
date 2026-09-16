@@ -1,0 +1,43 @@
+#include "resource.h"
+#include <windows.h>
+
+STRINGTABLE DISCARDABLE
+BEGIN
+    IDS_CHAMFERPRO_ROLLOUT     "ChamferPro"
+    IDS_CHAMFER1_AMOUNT        "Chamfer 1 Amount"
+    IDS_CHAMFER1_SEGMENTS      "Chamfer 1 Segments"
+    IDS_CHAMFER1_TENSION       "Chamfer 1 Tension"
+    IDS_CHAMFER2_AMOUNT        "Chamfer 2 Amount"
+    IDS_CHAMFER2_SEGMENTS      "Chamfer 2 Segments"
+    IDS_CHAMFER2_TENSION       "Chamfer 2 Tension"
+    IDS_LIMIT_EFFECT           "Limit Effect"
+END
+
+IDD_CHAMFERPRO_PANEL DIALOGEX 0, 0, 186, 202
+STYLE DS_SETFONT | WS_CHILD | WS_VISIBLE
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    GROUPBOX        "Chamfer 1", -1, 6, 6, 174, 70
+    LTEXT           "Amount", -1, 14, 23, 56, 10
+    EDITTEXT        IDC_CHAMFER1_AMOUNT_EDIT, 76, 20, 64, 12, ES_AUTOHSCROLL
+    CONTROL         "", IDC_CHAMFER1_AMOUNT_SPIN, "SpinnerControl", WS_TABSTOP, 144, 20, 10, 12
+    LTEXT           "Segments", -1, 14, 42, 56, 10
+    EDITTEXT        IDC_CHAMFER1_SEGMENTS_EDIT, 76, 39, 64, 12, ES_AUTOHSCROLL
+    CONTROL         "", IDC_CHAMFER1_SEGMENTS_SPIN, "SpinnerControl", WS_TABSTOP, 144, 39, 10, 12
+    LTEXT           "Tension", -1, 14, 61, 56, 10
+    EDITTEXT        IDC_CHAMFER1_TENSION_EDIT, 76, 58, 64, 12, ES_AUTOHSCROLL
+    CONTROL         "", IDC_CHAMFER1_TENSION_SPIN, "SpinnerControl", WS_TABSTOP, 144, 58, 10, 12
+
+    GROUPBOX        "Chamfer 2", -1, 6, 84, 174, 70
+    LTEXT           "Amount", -1, 14, 101, 56, 10
+    EDITTEXT        IDC_CHAMFER2_AMOUNT_EDIT, 76, 98, 64, 12, ES_AUTOHSCROLL
+    CONTROL         "", IDC_CHAMFER2_AMOUNT_SPIN, "SpinnerControl", WS_TABSTOP, 144, 98, 10, 12
+    LTEXT           "Segments", -1, 14, 120, 56, 10
+    EDITTEXT        IDC_CHAMFER2_SEGMENTS_EDIT, 76, 117, 64, 12, ES_AUTOHSCROLL
+    CONTROL         "", IDC_CHAMFER2_SEGMENTS_SPIN, "SpinnerControl", WS_TABSTOP, 144, 117, 10, 12
+    LTEXT           "Tension", -1, 14, 139, 56, 10
+    EDITTEXT        IDC_CHAMFER2_TENSION_EDIT, 76, 136, 64, 12, ES_AUTOHSCROLL
+    CONTROL         "", IDC_CHAMFER2_TENSION_SPIN, "SpinnerControl", WS_TABSTOP, 144, 136, 10, 12
+
+    CONTROL         "Limit Effect", IDC_LIMIT_EFFECT, "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 14, 166, 120, 12
+END

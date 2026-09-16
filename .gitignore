@@ -1,0 +1,36 @@
+# Build outputs
+bin/
+obj/
+*.dlo
+*.dle
+*.dlu
+*.dms
+*.pdb
+*.ilk
+*.exp
+*.lib
+
+# Visual Studio temporary files
+.vs/
+*.user
+*.suo
+*.userosv
+
+# Logs and temp test outputs
+*.log
+*Output.txt
+MaxLog*.txt
+debuggers.txt
+gui-log-events.txt
+gui-process.txt
+latest-crash-events.txt
+latest-dumps.txt
+mnmesh-copy-check.txt
+process-status.txt
+quadchamfer-sdk.txt
+artifact-info.txt
+
+# Embedded third_party build/install directories
+**/third_party/**/build/
+**/third_party/**/build-*/
+**/third_party/**/install/

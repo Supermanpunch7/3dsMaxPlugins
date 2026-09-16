@@ -1,0 +1,115 @@
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+#include <winres.h>
+#undef APSTUDIO_READONLY_SYMBOLS
+
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+
+IDD_MESHSMOOTHPRO DIALOGEX 0, 0, 186, 166
+STYLE DS_SETFONT | WS_CHILD | WS_VISIBLE
+FONT 8, "Microsoft Sans Serif", 0, 0, 0x1
+BEGIN
+    GROUPBOX        "General Controls",IDC_STATIC,5,4,176,58
+    RTEXT           "Iterations:",IDC_STATIC,13,19,58,8
+    CONTROL         "",IDC_ITERATIONS,"CustEdit",WS_TABSTOP,75,16,45,12
+    CONTROL         "",IDC_ITERATIONS_SPIN,"SpinnerControl",0x0,121,16,7,12
+    CONTROL         "Render Iters:",IDC_USE_RENDER_ITERS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,34,64,10
+    CONTROL         "",IDC_RENDER_ITERS,"CustEdit",WS_TABSTOP,79,32,41,12
+    CONTROL         "",IDC_RENDER_ITERS_SPIN,"SpinnerControl",0x0,121,32,7,12
+    CONTROL         "Isoline Display",IDC_ISOLINE_DISPLAY,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,48,80,10
+
+    GROUPBOX        "OpenSubdiv Controls",IDC_STATIC,5,65,176,98
+    RTEXT           "Vertex Boundary:",IDC_STATIC,13,80,62,8
+    COMBOBOX        IDC_VERTEX_BOUNDARY,79,77,91,70,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    RTEXT           "UV Boundary:",IDC_STATIC,13,98,62,8
+    COMBOBOX        IDC_FVAR_BOUNDARY,79,95,91,90,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "Smooth Triangles",IDC_SMOOTH_TRIANGLES,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,116,82,10
+    RTEXT           "Crease:",IDC_STATIC,13,133,62,8
+    COMBOBOX        IDC_CREASE_METHOD,79,130,91,50,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "Use Vertex Crease",IDC_USE_VERTEX_CREASE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,148,78,10
+    CONTROL         "Use Edge Crease",IDC_USE_EDGE_CREASE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,98,148,75,10
+END
+
+IDD_WEIGHTED_NORMALS DIALOGEX 0, 0, 186, 192
+STYLE DS_SETFONT | WS_CHILD | WS_VISIBLE
+FONT 8, "Microsoft Sans Serif", 0, 0, 0x1
+BEGIN
+    CONTROL         "Enable Weighted Normals",IDC_SMOOTH_RESULT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,5,105,10
+    LTEXT           "Weighting",IDC_STATIC,8,23,43,8
+    CONTROL         "Area",IDC_WN_AREA,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,57,21,38,10
+    CONTROL         "Angle",IDC_WN_ANGLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,100,21,42,10
+    CONTROL         "Use Convex Corner Angle",IDC_WN_CONVEX,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,36,112,10
+    CONTROL         "Snap To Largest Face",IDC_WN_SNAP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,50,102,10
+    RTEXT           "Blending:",IDC_STATIC,8,68,62,8
+    CONTROL         "",IDC_WN_BLENDING,"CustEdit",WS_TABSTOP,74,65,41,12
+    CONTROL         "",IDC_WN_BLENDING_SPIN,"SpinnerControl",0x0,116,65,7,12
+    LTEXT           "Hard Edge Detection",IDC_STATIC,8,84,90,8
+    CONTROL         "Use Smoothing Groups",IDC_WN_SMOOTH_GROUPS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,97,105,10
+    CONTROL         "Use UV Seams",IDC_WN_UV_SEAMS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,111,70,10
+    RTEXT           "Channel:",IDC_STATIC,84,112,40,8
+    CONTROL         "",IDC_WN_UV_CHANNEL,"CustEdit",WS_TABSTOP,127,109,27,12
+    CONTROL         "",IDC_WN_UV_CHANNEL_SPIN,"SpinnerControl",0x0,155,109,7,12
+    CONTROL         "By Edge Angle",IDC_WN_HARD_ANGLE_USE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,125,72,10
+    CONTROL         "",IDC_WN_HARD_ANGLE,"CustEdit",WS_TABSTOP,84,123,40,12
+    CONTROL         "",IDC_WN_HARD_ANGLE_SPIN,"SpinnerControl",0x0,125,123,7,12
+    RTEXT           "Smoothing:",IDC_STATIC,8,144,62,8
+    CONTROL         "",IDC_WN_SMOOTHING,"CustEdit",WS_TABSTOP,74,141,41,12
+    CONTROL         "",IDC_WN_SMOOTHING_SPIN,"SpinnerControl",0x0,116,141,7,12
+    RTEXT           "Hard Edge Blend:",IDC_STATIC,2,161,68,8
+    CONTROL         "",IDC_WN_BOUNDARY_BLEND,"CustEdit",WS_TABSTOP,74,158,41,12
+    CONTROL         "",IDC_WN_BOUNDARY_SPIN,"SpinnerControl",0x0,116,158,7,12
+    RTEXT           "Iterations:",IDC_STATIC,8,178,62,8
+    CONTROL         "",IDC_WN_ITERATIONS,"CustEdit",WS_TABSTOP,74,175,41,12
+    CONTROL         "",IDC_WN_ITERATIONS_SPIN,"SpinnerControl",0x0,116,175,7,12
+END
+
+STRINGTABLE
+BEGIN
+    IDS_CLASS_NAME          "OpenSubdivPro"
+    IDS_CLASS_DESC          "OpenSubdivPro Modifier"
+    IDS_CATEGORY            "KSI Tools"
+    IDS_PARAMETERS          "OpenSubdivPro"
+    IDS_LIBDESCRIPTION      "Pixar OpenSubdiv modifier with Max component data propagation"
+    IDS_ITERATIONS          "Iterations"
+    IDS_SMOOTHNESS          "Smoothness"
+    IDS_USE_VERTEX_CREASE   "Use Vertex Crease"
+    IDS_USE_EDGE_CREASE     "Use Edge Crease"
+    IDS_SMOOTH_RESULT       "Weighted Normals"
+    IDS_USE_RENDER_ITERS    "Use Render Iterations"
+    IDS_RENDER_ITERS        "Render Iterations"
+    IDS_ISOLINE_DISPLAY     "Isoline Display"
+    IDS_VERTEX_BOUNDARY     "Vertex Boundary"
+    IDS_FVAR_BOUNDARY       "UV Boundary"
+    IDS_SMOOTH_TRIANGLES    "Smooth Triangles"
+    IDS_CREASE_METHOD       "Crease Method"
+    IDS_VTX_EDGE_ONLY       "Interpolate Edges"
+    IDS_VTX_EDGE_CORNER     "Interpolate Edges and Corners"
+    IDS_FVAR_NONE           "Smooth All"
+    IDS_FVAR_CORNERS        "Sharpen Corners"
+    IDS_FVAR_CORNERS_PLUS1  "Sharpen Corners +1"
+    IDS_FVAR_CORNERS_PLUS2  "Sharpen Corners +2"
+    IDS_FVAR_BOUNDARIES     "Sharpen All Boundaries"
+    IDS_FVAR_ALL            "Bilinear All"
+    IDS_CREASE_UNIFORM      "Uniform"
+    IDS_CREASE_CHAIKIN      "Chaikin"
+    IDS_WN_AREA             "Area Weighting"
+    IDS_WN_ANGLE            "Angle Weighting"
+    IDS_WN_CONVEX           "Use Convex Corner Angle"
+    IDS_WN_SNAP             "Snap To Largest Face"
+    IDS_WN_BLENDING         "Blending"
+    IDS_WN_SMOOTH_GROUPS    "Use Smoothing Groups"
+    IDS_WN_UV_SEAMS         "Use UV Seams"
+    IDS_WN_UV_CHANNEL       "UV Channel"
+    IDS_WN_HARD_ANGLE_USE   "Use Hard Edge Angle"
+    IDS_WN_HARD_ANGLE       "Hard Edge Angle"
+    IDS_WN_SMOOTHING        "Smoothing"
+    IDS_WN_BOUNDARY_BLEND   "Hard Edge Blending"
+    IDS_WN_ITERATIONS       "Smoothing Iterations"
+    IDS_WN_RELAXATION       "Relaxation"
+    IDS_WN_COPLANAR_AREA    "Use Total Coplanar Area"
+    IDS_WN_ROLLOUT          "Weighted Normals"
+    IDS_WN_DISPLAY_NORMALS  "Display Normals"
+    IDS_WN_NORMAL_LENGTH    "Display Length"
+END
