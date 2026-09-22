@@ -1,0 +1,26 @@
+{
+  "removed": [
+    "C:\\Users\\ksi\\AppData\\Local\\Autodesk\\3dsMax\\2027 - 64bit\\ENU\\3dsMaxPlugins\\OpenSubdivPro\\bin\\HardEdges",
+    "C:\\Users\\ksi\\AppData\\Local\\Autodesk\\3dsMax\\2027 - 64bit\\ENU\\3dsMaxPlugins\\OpenSubdivPro\\bin\\NativeHardEdges",
+    "C:\\Users\\ksi\\AppData\\Local\\Autodesk\\3dsMax\\2027 - 64bit\\ENU\\3dsMaxPlugins\\OpenSubdivPro\\bin\\NativeWeightedNormals",
+    "C:\\Users\\ksi\\AppData\\Local\\Autodesk\\3dsMax\\2027 - 64bit\\ENU\\3dsMaxPlugins\\OpenSubdivPro\\bin\\WeightedNormalsToggle",
+    "C:\\Users\\ksi\\AppData\\Local\\Autodesk\\3dsMax\\2027 - 64bit\\ENU\\3dsMaxPlugins\\OpenSubdivPro\\bin\\SafeNormals",
+    "C:\\Users\\ksi\\AppData\\Local\\Autodesk\\3dsMax\\2027 - 64bit\\ENU\\3dsMaxPlugins\\OpenSubdivPro\\bin\\SafeTest",
+    "C:\\Users\\ksi\\AppData\\Local\\Autodesk\\3dsMax\\2027 - 64bit\\ENU\\3dsMaxPlugins\\OpenSubdivPro\\bin\\SafeTestIsolated",
+    "C:\\Users\\ksi\\AppData\\Local\\Autodesk\\3dsMax\\2027 - 64bit\\ENU\\3dsMaxPlugins\\OpenSubdivPro\\bin\\SafeTestNamed",
+    "C:\\Users\\ksi\\AppData\\Local\\Autodesk\\3dsMax\\2027 - 64bit\\ENU\\3dsMaxPlugins\\OpenSubdivPro\\bin\\Hybrid\\OpenSubdivPro_before_weightcheck_restore_20260914_212756.dlm.bak",
+    "C:\\Users\\ksi\\AppData\\Local\\Autodesk\\3dsMax\\2027 - 64bit\\ENU\\3dsMaxPlugins\\OpenSubdivPro\\bin\\Hybrid\\OpenSubdivPro_unloadable_weightcheck_20260914_213235.dlm.bak",
+    "C:\\Users\\ksi\\AppData\\Local\\Autodesk\\3dsMax\\2027 - 64bit\\ENU\\3dsMaxPlugins\\OpenSubdivPro\\bin\\Hybrid\\OpenSubdivPro.pdb"
+  ],
+  "moved": [
+    "C:\\Users\\ksi\\AppData\\Local\\Autodesk\\3dsMax\\2027 - 64bit\\ENU\\3dsMaxPlugins\\OpenSubdivPro\\releases\\Final20260922"
+  ],
+  "installed_sha256_before": "673fc833dba4521a54c675d49c21e518c39aa1ff31aa8aa3fb06d5e20e7aff09",
+  "archive": "C:\\Users\\ksi\\AppData\\Local\\Autodesk\\3dsMax\\2027 - 64bit\\ENU\\3dsMaxPlugins\\OpenSubdivPro\\backups\\obsolete-builds-20260922-190020.zip",
+  "archived_files": 38,
+  "installed_sha256_after": "673fc833dba4521a54c675d49c21e518c39aa1ff31aa8aa3fb06d5e20e7aff09",
+  "remaining_bin_entries": [
+    "Hybrid"
+  ],
+  "success": true
+}

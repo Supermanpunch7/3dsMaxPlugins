@@ -1,0 +1,7 @@
+LIBRARY OpenSubdivProSafeTest.dlm
+EXPORTS
+    LibDescription
+    LibNumberClasses
+    LibClassDesc
+    LibVersion
+    CanAutoDefer

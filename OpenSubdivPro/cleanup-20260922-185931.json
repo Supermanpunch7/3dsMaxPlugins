@@ -1,0 +1,9 @@
+{
+  "removed": [],
+  "moved": [
+    "C:\\Users\\ksi\\AppData\\Local\\Autodesk\\3dsMax\\2027 - 64bit\\ENU\\3dsMaxPlugins\\OpenSubdivPro\\releases\\Final20260922"
+  ],
+  "installed_sha256_before": "673fc833dba4521a54c675d49c21e518c39aa1ff31aa8aa3fb06d5e20e7aff09",
+  "success": false,
+  "error": "\"There is no item named 'Hybrid\\\\\\\\OpenSubdivPro_before_weightcheck_restore_20260914_212756.dlm.bak' in the archive\""
+}

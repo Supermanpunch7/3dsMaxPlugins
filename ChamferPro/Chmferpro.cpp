@@ -6,6 +6,7 @@
 #include <iparamm2.h>
 #include <buildver.h>
 #include <units.h>
+#include <custcont.h>
 
 #include <algorithm>
 #include <vector>
@@ -33,6 +34,10 @@ static ParamBlockDesc2 params(
     0, _T("nativeStages"), 0, &desc, P_AUTO_CONSTRUCT, 0,
     0, _T("chamfer1"), TYPE_REFTARG, 0, 0, p_end,
     1, _T("chamfer2"), TYPE_REFTARG, 0, 0, p_end,
+    2, _T("chamfer1Enabled"), TYPE_BOOL, 0, 0, p_default, TRUE, p_end,
+    3, _T("chamfer2Enabled"), TYPE_BOOL, 0, 0, p_default, TRUE, p_end,
+    4, _T("displayHardEdges"), TYPE_BOOL, 0, 0, p_default, FALSE, p_end,
+    5, _T("hardEdgeColor"), TYPE_RGBA, 0, 0, p_default, Color(0.0f, 0.0f, 0.0f), p_end,
     p_end);
 
 // ApplyNativeCornerTrial also repairs smoothing groups, but its older geometric
@@ -128,6 +133,15 @@ class NativePair : public Modifier {
     HWND selector = nullptr;
     int activeStage = 0;
     ULONG editFlags = 0;
+    IColorSwatch* hardSwatch = nullptr;
+
+    void RefreshControls() {
+        if (!selector || !pb) return;
+        for (int i = 0; i < 2; ++i)
+            CheckDlgButton(selector, 1011 + i, pb->GetInt(2 + i) ? BST_CHECKED : BST_UNCHECKED);
+        CheckDlgButton(selector, 1013, pb->GetInt(4) ? BST_CHECKED : BST_UNCHECKED);
+        if (hardSwatch) hardSwatch->SetColor(pb->GetColor(5));
+    }
 
     static INT_PTR CALLBACK PanelProc(HWND window, UINT message,
                                       WPARAM w, LPARAM l) {
@@ -137,6 +151,30 @@ class NativePair : public Modifier {
             self = reinterpret_cast<NativePair*>(l);
             SetWindowLongPtr(window, GWLP_USERDATA, l);
             CheckRadioButton(window, 1001, 1002, 1001 + self->activeStage);
+            self->selector = window;
+            self->hardSwatch = GetIColorSwatch(GetDlgItem(window, 1014),
+                self->pb->GetColor(5), _T("Hard Edge Color"));
+            self->RefreshControls();
+            return TRUE;
+        }
+        if (message == WM_DESTROY && self) {
+            if (self->hardSwatch) ReleaseIColorSwatch(self->hardSwatch);
+            self->hardSwatch = nullptr;
+        }
+        if (message == WM_COMMAND && self && HIWORD(w) == BN_CLICKED &&
+            LOWORD(w) >= 1011 && LOWORD(w) <= 1013) {
+            theHold.Begin();
+            self->pb->SetValue(LOWORD(w) - 1009, 0,
+                IsDlgButtonChecked(window, LOWORD(w)) == BST_CHECKED);
+            theHold.Accept(_T("ChamferPro Controls"));
+            GetCOREInterface()->RedrawViews(GetCOREInterface()->GetTime());
+            return TRUE;
+        }
+        if (message == CC_COLOR_CHANGE && self && self->hardSwatch) {
+            theHold.Begin();
+            self->pb->SetValue(5, 0, Color(self->hardSwatch->GetColor()));
+            theHold.Accept(_T("ChamferPro Hard Edge Color"));
+            GetCOREInterface()->RedrawViews(GetCOREInterface()->GetTime());
             return TRUE;
         }
         if (message == WM_COMMAND && self && HIWORD(w) == BN_CLICKED &&
@@ -241,6 +279,7 @@ public:
     }
     RefResult NotifyRefChanged(const Interval&, RefTargetHandle,
                                PartID&, RefMessage, BOOL) override {
+        RefreshControls();
         return REF_SUCCEED;
     }
     RefTargetHandle Clone(RemapDir& remap) override {
@@ -253,7 +292,7 @@ public:
         return GEOM_CHANNEL | TOPO_CHANNEL | SELECT_CHANNEL |
                SUBSEL_TYPE_CHANNEL | TEXMAP_CHANNEL | VERTCOLOR_CHANNEL;
     }
-    ChannelMask ChannelsChanged() override { return ChannelsUsed(); }
+    ChannelMask ChannelsChanged() override { return ChannelsUsed() | DISP_ATTRIB_CHANNEL; }
     Class_ID InputType() override {
         auto* modifier = Stage(0);
         return modifier ? modifier->InputType() : defObjectClassID;
@@ -289,7 +328,7 @@ public:
 
         for (int stage = 0; stage < 2; ++stage) {
             auto* modifier = Stage(stage);
-            if (!modifier || !modifier->IsEnabled()) continue;
+            if (!modifier || !modifier->IsEnabled() || !pb->GetInt(2 + stage)) continue;
 
             modifier->NotifyInputChanged(
                 FOREVER, PART_ALL, REFMSG_CHANGE, &data->stages[stage]);
@@ -335,6 +374,32 @@ public:
                 30 + stage,
                 ApplyWeightFaceLineage(sourceMesh, outputMesh, weightTag, false, EDATA_DEPTH));
             EndWeightFaceLineage(outputMesh, weightTag);
+        }
+        // SDK editablepoly/polyedops.cpp UpdateEdgeColorDisplay convention:
+        // EDATA_COLOR black means smooth; hard-edge colors must be nonzero.
+        // Display only: never change smoothing groups or modeling channels here.
+        if (state->obj->IsSubClassOf(polyObjectClassID)) {
+            auto& mesh = static_cast<PolyObject*>(state->obj)->GetMesh();
+            mesh.ClearDispFlag(MNDISP_USE_EDGE_COLORS);
+            if (pb->GetInt(4)) {
+                Color c = pb->GetColor(5);
+                auto component = [](float x) -> unsigned char {
+                    return static_cast<unsigned char>((std::max)(1, (std::min)(255, int(x * 255.0f))));
+                };
+                Color24 hard(component(c.r), component(c.g), component(c.b));
+                mesh.setEDataSupport(EDATA_COLOR);
+                auto* colors = static_cast<Color24*>(mesh.edgeData(EDATA_COLOR));
+                if (colors) {
+                    for (int i = 0; i < mesh.nume; ++i) {
+                        const auto& e = mesh.e[i];
+                        colors[i] = Color24(0, 0, 0);
+                        if (!e.GetFlag(MN_DEAD) && e.f1 >= 0 && e.f2 >= 0 &&
+                            !(mesh.f[e.f1].smGroup & mesh.f[e.f2].smGroup)) colors[i] = hard;
+                    }
+                    mesh.SetDispFlag(MNDISP_USE_EDGE_COLORS);
+                }
+            }
+            mesh.InvalidateHardwareMesh();
         }
     }
 };

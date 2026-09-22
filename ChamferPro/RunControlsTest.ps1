@@ -1,0 +1,1 @@
+Start-Process 'C:\Program Files\Autodesk\3ds Max 2027\3dsmaxbatch.exe' -ArgumentList ('"'+$PSScriptRoot+'\VerifyControls.ms"') -RedirectStandardOutput "$PSScriptRoot\controls-batch.log" -RedirectStandardError "$PSScriptRoot\controls-error.log"

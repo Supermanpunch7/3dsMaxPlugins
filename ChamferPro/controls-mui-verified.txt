@@ -1,0 +1,12 @@
+﻿
+
+Algorithm : SHA256
+Hash      : 33F6E8448218E3DBA87B8DF5621DDF2778774E3C75FA604EB3630519B3474387
+Path      : C:\Users\ksi\AppData\Local\Autodesk\3dsMax\2027 - 64bit\ENU\3dsMaxPlugins\ChamferPro\bin\Controls\en-US\ChamferPro.dlm.mui
+
+Algorithm : SHA256
+Hash      : 33F6E8448218E3DBA87B8DF5621DDF2778774E3C75FA604EB3630519B3474387
+Path      : C:\Users\ksi\AppData\Local\Autodesk\3dsMax\2027 - 64bit\ENU\3dsMaxPlugins\ChamferPro\bin\Hybrid\en-US\ChamferPro.dlm.mui
+
+
+

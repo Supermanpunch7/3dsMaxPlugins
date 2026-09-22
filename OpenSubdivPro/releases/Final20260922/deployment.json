@@ -1,0 +1,8 @@
+{
+  "running_max_processes": [],
+  "backup": "C:\\Users\\ksi\\AppData\\Local\\Autodesk\\3dsMax\\2027 - 64bit\\ENU\\3dsMaxPlugins\\OpenSubdivPro\\backups\\before-final-20260922-185615\\OpenSubdivPro.dlm",
+  "old_sha256": "4811eaafa681a4c230e575540eadae4ae8ebb95dcfd618dfa9fc0a29fea22564",
+  "new_sha256": "673fc833dba4521a54c675d49c21e518c39aa1ff31aa8aa3fb06d5e20e7aff09",
+  "destination": "C:\\Users\\ksi\\AppData\\Local\\Autodesk\\3dsMax\\2027 - 64bit\\ENU\\3dsMaxPlugins\\OpenSubdivPro\\bin\\Hybrid\\OpenSubdivPro.dlm",
+  "installed": true
+}

@@ -1,10 +1,12 @@
 #include "max.h"
 #include "iparamb2.h"
 #include "polyobj.h"
+#include "MNNormalSpec.h"
 #include "resource.h"
 
 #include <Qt/QMaxParamBlockWidget.h>
 #include <Qt/QmaxSpinBox.h>
+#include <Qt/QMaxColorSwatch.h>
 #include <QtWidgets/QCheckBox>
 #include <QtWidgets/QComboBox>
 #include <QtWidgets/QGridLayout>
@@ -90,7 +92,10 @@ enum ParamIds
     pb_wn_use_total_coplanar_area,
     // Appended to preserve the ParamID values stored by existing scenes.
     pb_wn_display_normals,
-    pb_wn_normal_length
+    pb_wn_normal_length,
+    pb_display_hard_edges,
+    pb_hard_edge_color,
+    pb_native_weighted_normals
 };
 
 constexpr float kOpenSubdivInfiniteSharpness = 10.0f;
@@ -1233,7 +1238,7 @@ class MeshSmoothProClassDesc final : public ClassDesc2
 public:
     int IsPublic() override { return TRUE; }
     void* Create(BOOL loading = FALSE) override;
-    const TCHAR* ClassName() override { return GetString(IDS_CLASS_NAME); }
+    const TCHAR* ClassName() override { return _T("OpenSubdivPro"); }
     const TCHAR* NonLocalizedClassName() override { return _T("OpenSubdivPro"); }
     SClass_ID SuperClassID() override { return OSM_CLASS_ID; }
     Class_ID ClassID() override { return kOpenSubdivProClassId; }
@@ -1252,6 +1257,15 @@ public:
 
 static MeshSmoothProClassDesc g_classDesc;
 
+class NativeNormalsContext final : public LocalModData
+{
+public:
+    ModContext normals;
+    MNMesh displayMesh;
+    bool evaluated = false;
+    LocalModData* Clone() override { return new NativeNormalsContext(); }
+};
+
 class MeshSmoothPro final : public Modifier
 {
 public:
@@ -1260,27 +1274,163 @@ public:
         g_classDesc.MakeAutoParamBlocks(this);
     }
 
+    ~MeshSmoothPro() override { DeleteAllRefsFromMe(); }
+
+    Modifier* NativeNormals()
+    {
+        auto* target = m_pblock ? m_pblock->GetReferenceTarget(pb_native_weighted_normals) : nullptr;
+        return target && target->SuperClassID() == OSM_CLASS_ID &&
+            target->ClassID() == WEIGHTED_NORMALS_MOD_ID ? static_cast<Modifier*>(target) : nullptr;
+    }
+
+    Modifier* EnsureNativeNormals(TimeValue t)
+    {
+        auto* native = NativeNormals();
+        const bool created = native == nullptr;
+        if (created)
+            native = static_cast<Modifier*>(CreateInstance(OSM_CLASS_ID, WEIGHTED_NORMALS_MOD_ID));
+        if (!native)
+            return nullptr;
+        IParamBlock2* params = native->GetParamBlock(0);
+        if (!params)
+        {
+            native->DeleteThis();
+            return nullptr;
+        }
+        struct Mapping { ParamID legacy; const TCHAR* name; bool integer; };
+        const Mapping mappings[] = {
+            {pb_wn_use_area_weight, _T("useAreaWeight"), true},
+            {pb_wn_use_angle_weight, _T("useAngleWeight"), true},
+            {pb_wn_use_convex_angle, _T("useConvexAngle"), true},
+            {pb_wn_snap_to_largest_face, _T("snapToLargestFace"), true},
+            {pb_wn_blending_coeff, _T("blendingCoeff"), false},
+            {pb_wn_use_smoothing_groups, _T("useSmoothingGroups"), true},
+            {pb_wn_use_uv_seams, _T("useUVSeams"), true},
+            {pb_wn_uv_channel, _T("uvChannelIndex"), true},
+            {pb_wn_use_hard_edge_angle, _T("useHardEdgeAngle"), true},
+            {pb_wn_hard_edge_angle, _T("hardEdgeAngle"), false},
+            {pb_wn_smoothing_coeff, _T("smoothingCoeff"), false},
+            {pb_wn_boundary_coeff, _T("boundaryCoeff"), false},
+            {pb_wn_iterations, _T("smoothingIterLimit"), true},
+            {pb_wn_relaxation_coeff, _T("relaxationCoeff"), false},
+            {pb_wn_use_total_coplanar_area, _T("useTotalCoplanarArea"), true},
+            {pb_wn_display_normals, _T("displayNormals"), true},
+            {pb_wn_normal_length, _T("normalLength"), false}
+        };
+        for (const auto& mapping : mappings)
+        {
+            if (mapping.integer)
+                params->SetValueByName(mapping.name, m_pblock->GetInt(mapping.legacy, t), t);
+            else
+            {
+                float value = m_pblock->GetFloat(mapping.legacy, t);
+                if (mapping.legacy == pb_wn_hard_edge_angle)
+                    value = DegToRad(value);
+                params->SetValueByName(mapping.name, value, t);
+            }
+            // Preserve legacy controllers except the degree-valued angle.
+            // That controller remains in the old block and is sampled below.
+            if (created && mapping.legacy != pb_wn_hard_edge_angle)
+                if (Control* controller = m_pblock->GetControllerByID(mapping.legacy))
+                    for (int index = 0; index < params->NumParams(); ++index)
+                    {
+                        const ParamID id = params->IndextoID(index);
+                        const auto& def = params->GetParamDef(id);
+                        if (def.int_name && _tcscmp(def.int_name, mapping.name) == 0)
+                            params->SetControllerByID(id, 0,
+                                static_cast<Control*>(CloneRefHierarchy(controller)), FALSE);
+                    }
+        }
+        if (created)
+            m_pblock->SetValue(pb_native_weighted_normals, 0, static_cast<ReferenceTarget*>(native));
+        return native;
+    }
+
     void DeleteThis() override { delete this; }
     void GetClassName(MSTR& name, bool localized) const override
     {
-        name = localized ? GetString(IDS_CLASS_DESC) : _T("OpenSubdivProModifier");
+        name = _T("OpenSubdivPro");
     }
     Class_ID ClassID() override { return kOpenSubdivProClassId; }
     SClass_ID SuperClassID() override { return OSM_CLASS_ID; }
     const TCHAR* GetObjectName(bool localized) const override
     {
-        return localized ? GetString(IDS_CLASS_NAME) : _T("OpenSubdivPro");
+        return _T("OpenSubdivPro");
     }
     CreateMouseCallBack* GetCreateMouseCallBack() override { return nullptr; }
     void BeginEditParams(IObjParam* ip, ULONG flags, Animatable* prev) override
     {
+        if (m_editIP)
+            return;
+        m_editIP = ip;
+        SetAFlag(A_MOD_BEING_EDITED);
         Modifier::BeginEditParams(ip, flags, prev);
         g_classDesc.BeginEditParams(ip, this, flags, prev);
+        NotifyDependents(FOREVER, PART_ALL, REFMSG_BEGIN_EDIT);
+        NotifyDependents(FOREVER, PART_ALL, REFMSG_MOD_DISPLAY_ON);
     }
     void EndEditParams(IObjParam* ip, ULONG flags, Animatable* next) override
     {
+        if (!m_editIP)
+            return;
+        ClearAFlag(A_MOD_BEING_EDITED);
+        NotifyDependents(FOREVER, PART_ALL, REFMSG_END_EDIT);
+        NotifyDependents(FOREVER, PART_ALL, REFMSG_MOD_DISPLAY_OFF);
         Modifier::EndEditParams(ip, flags, next);
         g_classDesc.EndEditParams(ip, this, flags, next);
+        m_editIP = nullptr;
+    }
+
+    int Display(TimeValue t, INode* node, ViewExp* view, int flags, ModContext* context) override
+    {
+        auto* data = context ? static_cast<NativeNormalsContext*>(context->localData) : nullptr;
+        if (!m_editIP || !node || !view || !data || !data->evaluated ||
+            !m_pblock->GetInt(pb_smooth_result, t) || !m_pblock->GetInt(pb_wn_display_normals, t))
+            return 0;
+        auto* normals = data->displayMesh.GetSpecifiedNormals();
+        auto* gw = view->getGW();
+        if (!normals || !gw)
+            return 0;
+        const DWORD limits = gw->getRndLimits();
+        gw->setRndLimits(limits & ~GW_ILLUM);
+        Matrix3 tm = node->GetObjectTM(t);
+        gw->setTransform(tm);
+        normals->SetParent(&data->displayMesh);
+        normals->SetDisplayLength(m_pblock->GetFloat(pb_wn_normal_length, t));
+        normals->Display(gw, false);
+        gw->setRndLimits(limits);
+        return 0;
+    }
+
+    void GetWorldBoundBox(TimeValue t, INode* node, ViewExp* view, Box3& box, ModContext* context) override
+    {
+        box.Init();
+        auto* data = context ? static_cast<NativeNormalsContext*>(context->localData) : nullptr;
+        if (node && data && data->evaluated && m_pblock->GetInt(pb_smooth_result, t) &&
+            m_pblock->GetInt(pb_wn_display_normals, t))
+        {
+            const float length = m_pblock->GetFloat(pb_wn_normal_length, t);
+            const Point3 extent(length, length, length);
+            const Matrix3 tm = node->GetObjectTM(t);
+            for (int v = 0; v < data->displayMesh.numv; ++v)
+                for (int corner = 0; corner < 8; ++corner)
+                {
+                    const Point3 offset((corner & 1) ? extent.x : -extent.x,
+                        (corner & 2) ? extent.y : -extent.y, (corner & 4) ? extent.z : -extent.z);
+                    box += (data->displayMesh.v[v].p + offset) * tm;
+                }
+        }
+    }
+
+    void NotifyInputChanged(const Interval& interval, PartID part, RefMessage message, ModContext* context) override
+    {
+        auto* data = context ? static_cast<NativeNormalsContext*>(context->localData) : nullptr;
+        if (data)
+        {
+            data->evaluated = false;
+            if (auto* native = NativeNormals())
+                native->NotifyInputChanged(interval, part, message, &data->normals);
+        }
     }
 
     int NumRefs() override { return 1; }
@@ -1314,6 +1464,13 @@ public:
     BOOL DependOnTopology(ModContext&) override { return TRUE; }
     Interval LocalValidity(TimeValue t) override
     {
+        if (TestAFlag(A_MOD_BEING_EDITED))
+            return NEVER;
+        return EvaluationValidity(t);
+    }
+
+    Interval EvaluationValidity(TimeValue t)
+    {
         Interval validity = FOREVER;
         int i = 0;
         float f = 0.0f;
@@ -1346,11 +1503,20 @@ public:
         m_pblock->GetValue(pb_wn_use_total_coplanar_area, t, i, validity);
         m_pblock->GetValue(pb_wn_display_normals, t, i, validity);
         m_pblock->GetValue(pb_wn_normal_length, t, f, validity);
+        m_pblock->GetValue(pb_display_hard_edges, t, i, validity);
+        Color hardEdgeColor;
+        m_pblock->GetValue(pb_hard_edge_color, t, hardEdgeColor, validity);
+        if (auto* native = NativeNormals())
+            validity &= native->LocalValidity(t);
         return validity;
     }
 
     void ModifyObject(TimeValue t, ModContext& context, ObjectState* os, INode* node) override
     {
+        if (!context.localData)
+            context.localData = new NativeNormalsContext();
+        auto* normalsData = static_cast<NativeNormalsContext*>(context.localData);
+        normalsData->evaluated = false;
         if (!os || !os->obj || !os->obj->IsSubClassOf(polyObjectClassID))
             return;
 
@@ -1885,48 +2051,71 @@ public:
 
         if (smoothResult)
         {
-            auto* weightedNormals = static_cast<Modifier*>(
-                CreateInstance(OSM_CLASS_ID, WEIGHTED_NORMALS_MOD_ID));
+            auto* weightedNormals = EnsureNativeNormals(t);
             if (weightedNormals)
             {
-                if (IParamBlock2* weightedNormalsParams = weightedNormals->GetParamBlock(0))
-                {
-                    weightedNormalsParams->SetValueByName(_T("useAreaWeight"), wnUseAreaWeight, t);
-                    weightedNormalsParams->SetValueByName(_T("useAngleWeight"), wnUseAngleWeight, t);
-                    weightedNormalsParams->SetValueByName(_T("useConvexAngle"), wnUseConvexAngle, t);
-                    weightedNormalsParams->SetValueByName(
-                        _T("snapToLargestFace"), wnSnapToLargestFace, t);
-                    weightedNormalsParams->SetValueByName(
-                        _T("blendingCoeff"), wnBlendingCoeff, t);
-                    weightedNormalsParams->SetValueByName(
-                        _T("useSmoothingGroups"), wnUseSmoothingGroups, t);
-                    weightedNormalsParams->SetValueByName(_T("useUVSeams"), wnUseUvSeams, t);
-                    weightedNormalsParams->SetValueByName(_T("uvChannelIndex"), wnUvChannel, t);
-                    weightedNormalsParams->SetValueByName(
-                        _T("useHardEdgeAngle"), wnUseHardEdgeAngle, t);
-                    weightedNormalsParams->SetValueByName(
+                // Old degree-valued animated angles stay driven by the legacy
+                // controller; other parameters are owned by the native UI.
+                if (Control* angle = m_pblock->GetControllerByID(pb_wn_hard_edge_angle);
+                    angle && angle->IsAnimated())
+                    weightedNormals->GetParamBlock(0)->SetValueByName(
                         _T("hardEdgeAngle"), DegToRad(wnHardEdgeAngle), t);
-                    weightedNormalsParams->SetValueByName(
-                        _T("smoothingCoeff"), wnSmoothingCoeff, t);
-                    weightedNormalsParams->SetValueByName(
-                        _T("boundaryCoeff"), wnBoundaryCoeff, t);
-                    weightedNormalsParams->SetValueByName(
-                        _T("smoothingIterLimit"), wnIterations, t);
-                    weightedNormalsParams->SetValueByName(
-                        _T("relaxationCoeff"), wnRelaxationCoeff, t);
-                    weightedNormalsParams->SetValueByName(
-                        _T("useTotalCoplanarArea"), wnUseTotalCoplanarArea, t);
-                    weightedNormalsParams->SetValueByName(
-                        _T("displayNormals"), wnDisplayNormals, t);
-                    weightedNormalsParams->SetValueByName(
-                        _T("normalLength"), wnNormalLength, t);
-                }
-                weightedNormals->ModifyObject(t, context, os, node);
-                weightedNormals->DeleteThis();
+                ModContext& normalsContext = normalsData->normals;
+                delete normalsContext.tm;
+                normalsContext.tm = nullptr;
+                delete normalsContext.box;
+                normalsContext.box = nullptr;
+                if (context.tm)
+                    normalsContext.tm = new Matrix3(*context.tm);
+                if (context.box)
+                    normalsContext.box = new Box3(*context.box);
+                weightedNormals->NotifyInputChanged(FOREVER, PART_ALL, REFMSG_CHANGE, &normalsContext);
+                weightedNormals->ModifyObject(t, normalsContext, os, node);
+                if (os->obj && os->obj->IsSubClassOf(polyObjectClassID))
+                    normalsData->displayMesh = static_cast<PolyObject*>(os->obj)->GetMesh();
+                normalsData->evaluated = true;
             }
         }
 
-        const Interval validity = LocalValidity(t);
+        // Native Editable Poly display path: see SDK sample
+        // editablepoly/polyedops.cpp, EditPolyObject::UpdateEdgeColorDisplay.
+        if (!os->obj || !os->obj->IsSubClassOf(polyObjectClassID))
+            return;
+        polyObject = static_cast<PolyObject*>(os->obj);
+        MNMesh& displayMesh = polyObject->GetMesh();
+        displayMesh.ClearDispFlag(MNDISP_USE_EDGE_COLORS);
+        if (m_pblock->GetInt(pb_display_hard_edges, t))
+        {
+            const Color color = m_pblock->GetColor(pb_hard_edge_color, t);
+            const auto component = [](float value) -> unsigned char
+            {
+                if (!std::isfinite(value))
+                    return 1;
+                return static_cast<unsigned char>(std::clamp(value * 255.0f, 1.0f, 255.0f));
+            };
+            const Color24 hardColor(component(color.r), component(color.g), component(color.b));
+            const Color24 smoothColor(0, 0, 0);
+            displayMesh.setEDataSupport(EDATA_COLOR);
+            auto* colors = reinterpret_cast<Color24*>(displayMesh.edgeData(EDATA_COLOR));
+            if (colors)
+            {
+                for (int edge = 0; edge < displayMesh.nume; ++edge)
+                {
+                    colors[edge] = smoothColor;
+                    const MNEdge& e = displayMesh.e[edge];
+                    if (e.GetFlag(MN_DEAD) || e.f1 < 0 || e.f2 < 0 ||
+                        e.f1 >= displayMesh.numf || e.f2 >= displayMesh.numf)
+                        continue;
+                    if (!(displayMesh.f[e.f1].smGroup & displayMesh.f[e.f2].smGroup))
+                        colors[edge] = hardColor;
+                }
+                displayMesh.SetDispFlag(MNDISP_USE_EDGE_COLORS);
+            }
+        }
+        displayMesh.InvalidateHardwareMesh();
+
+        // Editing invalidates the upstream cache, not the evaluated output.
+        const Interval validity = EvaluationValidity(t);
         polyObject->UpdateValidity(GEOM_CHAN_NUM, validity);
         polyObject->UpdateValidity(TOPO_CHAN_NUM, validity);
         polyObject->UpdateValidity(SELECT_CHAN_NUM, validity);
@@ -1942,6 +2131,7 @@ private:
     }
 
     IParamBlock2* m_pblock = nullptr;
+    IObjParam* m_editIP = nullptr;
 };
 
 namespace
@@ -2070,143 +2260,122 @@ public:
     WeightedNormalsRollout()
     {
         setObjectName(QStringLiteral("OpenSubdivProWeightedNormals"));
-
         auto* root = new QVBoxLayout(this);
         root->setContentsMargins(4, 4, 4, 4);
-        root->setSpacing(3);
-
-        auto* weighting = new QGroupBox(tr("Weighting"), this);
-        auto* weightingGrid = new QGridLayout(weighting);
-        weightingGrid->setContentsMargins(4, 2, 4, 2);
-        weightingGrid->setHorizontalSpacing(3);
-        weightingGrid->setVerticalSpacing(3);
-        weightingGrid->setColumnStretch(0, 1);
-        weightingGrid->setColumnStretch(1, 1);
-
-        auto* area = new QToolButton(weighting);
-        area->setObjectName(QStringLiteral("wnUseAreaWeight"));
-        area->setText(tr("Area"));
-        area->setCheckable(true);
-        area->setToolButtonStyle(Qt::ToolButtonTextOnly);
-        area->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
-        auto* angle = new QToolButton(weighting);
-        angle->setObjectName(QStringLiteral("wnUseAngleWeight"));
-        angle->setText(tr("Angle"));
-        angle->setCheckable(true);
-        angle->setToolButtonStyle(Qt::ToolButtonTextOnly);
-        angle->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
-        weightingGrid->addWidget(area, 0, 0);
-        weightingGrid->addWidget(angle, 0, 1);
-
-        auto* convex = new QCheckBox(tr("Use Convex Corner Angle"), weighting);
-        convex->setObjectName(QStringLiteral("wnUseConvexAngle"));
-        weightingGrid->addWidget(convex, 1, 0, 1, 2);
-
-        auto* snap = new QCheckBox(tr("Snap To Largest Face"), weighting);
-        snap->setObjectName(QStringLiteral("wnSnapToLargestFace"));
-        weightingGrid->addWidget(snap, 2, 0, 1, 2);
-
-        auto* blending = new MaxSDK::QmaxDoubleSpinBox(weighting);
-        blending->setObjectName(QStringLiteral("wnBlendingCoeff"));
-        ConfigureSpinBox(blending);
-        weightingGrid->addWidget(MakeRightLabel(tr("Blending:"), weighting), 3, 0);
-        weightingGrid->addWidget(blending, 3, 1);
-        root->addWidget(weighting);
-
-        auto* hardEdges = new QGroupBox(tr("Hard Edge Detection"), this);
-        auto* hardGrid = new QGridLayout(hardEdges);
-        hardGrid->setContentsMargins(4, 2, 4, 2);
-        hardGrid->setHorizontalSpacing(3);
-        hardGrid->setVerticalSpacing(3);
-        hardGrid->setColumnStretch(0, 1);
-        hardGrid->setColumnStretch(1, 1);
-
-        auto* smoothingGroups = new QCheckBox(tr("Use Smoothing Groups"), hardEdges);
-        smoothingGroups->setObjectName(QStringLiteral("wnUseSmoothingGroups"));
-        hardGrid->addWidget(smoothingGroups, 0, 0, 1, 2);
-
-        m_useUvSeams = new QCheckBox(tr("Use UV Map:"), hardEdges);
-        m_useUvSeams->setObjectName(QStringLiteral("wnUseUVSeams"));
-        m_uvChannel = new MaxSDK::QmaxSpinBox(hardEdges);
-        m_uvChannel->setObjectName(QStringLiteral("wnUVChannel"));
-        ConfigureSpinBox(m_uvChannel);
-        hardGrid->addWidget(m_useUvSeams, 1, 0);
-        hardGrid->addWidget(m_uvChannel, 1, 1);
-
-        m_useHardEdgeAngle = new QCheckBox(tr("By Edge Angle:"), hardEdges);
-        m_useHardEdgeAngle->setObjectName(QStringLiteral("wnUseHardEdgeAngle"));
-        m_hardEdgeAngle = new MaxSDK::QmaxDoubleSpinBox(hardEdges);
-        m_hardEdgeAngle->setObjectName(QStringLiteral("wnHardEdgeAngle"));
-        ConfigureSpinBox(m_hardEdgeAngle);
-        hardGrid->addWidget(m_useHardEdgeAngle, 2, 0);
-        hardGrid->addWidget(m_hardEdgeAngle, 2, 1);
-        root->addWidget(hardEdges);
-
-        auto* smoothing = new QGroupBox(tr("Smoothing"), this);
-        auto* smoothingGrid = new QGridLayout(smoothing);
-        smoothingGrid->setContentsMargins(4, 2, 4, 2);
-        smoothingGrid->setHorizontalSpacing(3);
-        smoothingGrid->setVerticalSpacing(3);
-        smoothingGrid->setColumnStretch(0, 1);
-        smoothingGrid->setColumnStretch(1, 1);
-
-        auto* smoothingCoeff = new MaxSDK::QmaxDoubleSpinBox(smoothing);
-        smoothingCoeff->setObjectName(QStringLiteral("wnSmoothingCoeff"));
-        ConfigureSpinBox(smoothingCoeff);
-        smoothingGrid->addWidget(MakeRightLabel(tr("Smoothing:"), smoothing), 0, 0);
-        smoothingGrid->addWidget(smoothingCoeff, 0, 1);
-
-        auto* hardEdgeBlend = new MaxSDK::QmaxDoubleSpinBox(smoothing);
-        hardEdgeBlend->setObjectName(QStringLiteral("wnBoundaryCoeff"));
-        ConfigureSpinBox(hardEdgeBlend);
-        smoothingGrid->addWidget(MakeRightLabel(tr("Hard Edge Blending:"), smoothing), 1, 0);
-        smoothingGrid->addWidget(hardEdgeBlend, 1, 1);
-
-        auto* smoothingIterations = new MaxSDK::QmaxSpinBox(smoothing);
-        smoothingIterations->setObjectName(QStringLiteral("wnIterations"));
-        ConfigureSpinBox(smoothingIterations);
-        smoothingGrid->addWidget(MakeRightLabel(tr("Iterations:"), smoothing), 2, 0);
-        smoothingGrid->addWidget(smoothingIterations, 2, 1);
-        root->addWidget(smoothing);
-
-        auto* displayNormals = new QGroupBox(tr("Display Normals"), this);
-        displayNormals->setObjectName(QStringLiteral("wnDisplayNormals"));
-        displayNormals->setCheckable(true);
-        auto* displayGrid = new QGridLayout(displayNormals);
-        displayGrid->setContentsMargins(4, 3, 4, 3);
-        displayGrid->setColumnStretch(0, 1);
-        displayGrid->setColumnStretch(1, 1);
-
-        auto* normalLength = new MaxSDK::QmaxDoubleSpinBox(displayNormals);
-        normalLength->setObjectName(QStringLiteral("wnNormalLength"));
-        ConfigureSpinBox(normalLength);
-        displayGrid->addWidget(MakeRightLabel(tr("Display Length:"), displayNormals), 0, 0);
-        displayGrid->addWidget(normalLength, 0, 1);
-        root->addWidget(displayNormals);
-
-        QObject::connect(
-            m_useUvSeams,
-            &QCheckBox::toggled,
-            m_uvChannel,
-            &QWidget::setEnabled);
-        QObject::connect(
-            m_useHardEdgeAngle,
-            &QCheckBox::toggled,
-            m_hardEdgeAngle,
-            &QWidget::setEnabled);
+        auto* header = new QGridLayout();
+        header->addWidget(new QLabel(tr("Weighted Normals"), this), 0, 0);
+        header->setColumnStretch(0, 1);
+        m_enable = new QCheckBox(tr("OFF"), this);
+        m_enable->setObjectName(QStringLiteral("smoothResult"));
+        m_enable->setToolTip(tr("Enable weighted normal calculation and normal display. Settings are preserved when OFF."));
+        header->addWidget(m_enable, 0, 1, Qt::AlignRight | Qt::AlignVCenter);
+        QObject::connect(m_enable, &QCheckBox::toggled, m_enable,
+            [this](bool enabled) { m_enable->setText(enabled ? tr("ON") : tr("OFF")); });
+        root->addLayout(header);
+        auto* settings = new QWidget(this);
+        auto* grid = new QGridLayout(settings);
+        grid->setContentsMargins(4, 2, 4, 2);
+        grid->setColumnStretch(1, 1);
+        int line = 0;
+        const auto check = [&](const char* name, const char* label)
+        {
+            auto* widget = new QCheckBox(tr(label), settings);
+            widget->setObjectName(QString::fromLatin1(name));
+            grid->addWidget(widget, line++, 0, 1, 2);
+            return widget;
+        };
+        const auto number = [&](const char* name, const char* label, bool integer)
+        {
+            grid->addWidget(MakeRightLabel(tr(label), settings), line, 0);
+            QWidget* widget;
+            if (integer)
+                widget = new MaxSDK::QmaxSpinBox(settings);
+            else
+                widget = new MaxSDK::QmaxDoubleSpinBox(settings);
+            widget->setObjectName(QString::fromLatin1(name));
+            grid->addWidget(widget, line++, 1);
+            return widget;
+        };
+        grid->addWidget(new QLabel(tr("Weighting"), settings), line++, 0, 1, 2);
+        auto* weighting = new QGridLayout();
+        weighting->setContentsMargins(0, 0, 0, 0);
+        const auto weightButton = [&](const char* name, const char* label, int column)
+        {
+            auto* button = new QToolButton(settings);
+            button->setObjectName(QString::fromLatin1(name));
+            button->setText(tr(label));
+            button->setCheckable(true);
+            button->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+            weighting->addWidget(button, 0, column);
+            weighting->setColumnStretch(column, 1);
+        };
+        weightButton("wnUseAreaWeight", "Area", 0);
+        weightButton("wnUseAngleWeight", "Angle", 1);
+        grid->addLayout(weighting, line++, 0, 1, 2);
+        auto* convex = check("wnUseConvexAngle", "Use Convex Corner Angle");
+        auto* angleWeight = settings->findChild<QToolButton*>(QStringLiteral("wnUseAngleWeight"));
+        QObject::connect(angleWeight, &QToolButton::toggled, convex, &QWidget::setEnabled);
+        check("wnSnapToLargestFace", "Snap to Largest Face");
+        number("wnBlendingCoeff", "Blending:", false);
+        check("wnUseSmoothingGroups", "Use Smoothing Groups");
+        auto* seams = check("wnUseUVSeams", "Use UV Seams");
+        auto* channel = number("wnUVChannel", "UV Channel:", true);
+        auto* angle = check("wnUseHardEdgeAngle", "Use Hard Edge Angle");
+        auto* angleValue = number("wnHardEdgeAngle", "Hard Edge Angle:", false);
+        number("wnSmoothingCoeff", "Smoothing:", false);
+        number("wnBoundaryCoeff", "Boundary Blending:", false);
+        number("wnIterations", "Iterations:", true);
+        number("wnRelaxationCoeff", "Relaxation:", false);
+        // Keep the serialized parameter for scene compatibility, but do not expose it in the UI.
+        auto* normals = check("wnDisplayNormals", "Display Normals");
+        auto* length = number("wnNormalLength", "Normal Length:", false);
+        m_dependencies = {{seams, channel}, {angle, angleValue}, {normals, length}};
+        m_angleWeight = angleWeight;
+        m_convex = convex;
+        for (const auto& dependency : m_dependencies)
+            QObject::connect(dependency.first, &QCheckBox::toggled, dependency.second, &QWidget::setEnabled);
+        m_settings = settings;
+        QObject::connect(m_enable, &QCheckBox::toggled, settings, &QWidget::setEnabled);
+        root->addWidget(settings);
+        auto* row = new QGridLayout();
+        auto* color = new MaxSDK::QMaxColorSwatch(this);
+        color->setObjectName(QStringLiteral("hardEdgeColor"));
+        color->setFixedSize(32, 18);
+        color->setTitle(tr("Hard Edge Color"));
+        auto* display = new QCheckBox(tr("Display Hard Edges"), this);
+        display->setObjectName(QStringLiteral("displayHardEdges"));
+        row->addWidget(color, 0, 0);
+        row->addWidget(display, 0, 1);
+        row->setColumnStretch(1, 1);
+        root->addLayout(row);
     }
-
     void PostConnectUI(const MapID) override
     {
-        m_uvChannel->setEnabled(m_useUvSeams->isChecked());
-        m_hardEdgeAngle->setEnabled(m_useHardEdgeAngle->isChecked());
+        RefreshEnabledState();
+    }
+    void UpdateUI(const TimeValue) override
+    {
+        RefreshEnabledState();
+    }
+    void UpdateParameterUI(const TimeValue, const ParamID, const int) override
+    {
+        RefreshEnabledState();
     }
 
 private:
-    QCheckBox* m_useUvSeams = nullptr;
-    MaxSDK::QmaxSpinBox* m_uvChannel = nullptr;
-    QCheckBox* m_useHardEdgeAngle = nullptr;
-    MaxSDK::QmaxDoubleSpinBox* m_hardEdgeAngle = nullptr;
+    void RefreshEnabledState()
+    {
+        m_enable->setText(m_enable->isChecked() ? tr("ON") : tr("OFF"));
+        m_settings->setEnabled(m_enable->isChecked());
+        for (const auto& dependency : m_dependencies)
+            dependency.second->setEnabled(dependency.first->isChecked());
+        m_convex->setEnabled(m_angleWeight->isChecked());
+    }
+    QToolButton* m_angleWeight = nullptr;
+    QCheckBox* m_convex = nullptr;
+    QCheckBox* m_enable = nullptr;
+    QWidget* m_settings = nullptr;
+    std::vector<std::pair<QCheckBox*, QWidget*>> m_dependencies;
 };
 }
 
@@ -2375,6 +2544,17 @@ static ParamBlockDesc2 g_paramBlock(
     pb_wn_normal_length, _T("wnNormalLength"), TYPE_FLOAT, P_ANIMATABLE | P_RESET_DEFAULT, IDS_WN_NORMAL_LENGTH,
         p_default, 10.0f,
         p_range, 0.0f, 1000000.0f,
+        p_end,
+
+    pb_display_hard_edges, _T("displayHardEdges"), TYPE_BOOL, P_RESET_DEFAULT, IDS_DISPLAY_HARD_EDGES,
+        p_default, FALSE,
+        p_end,
+
+    pb_hard_edge_color, _T("hardEdgeColor"), TYPE_RGBA, P_RESET_DEFAULT, IDS_HARD_EDGE_COLOR,
+        p_default, Color(0.0f, 0.0f, 0.0f),
+        p_end,
+
+    pb_native_weighted_normals, _T("nativeWeightedNormals"), TYPE_REFTARG, 0, IDS_WN_ROLLOUT,
         p_end,
 
     p_end);

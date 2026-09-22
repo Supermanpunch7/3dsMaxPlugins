@@ -112,4 +112,6 @@ BEGIN
     IDS_WN_ROLLOUT          "Weighted Normals"
     IDS_WN_DISPLAY_NORMALS  "Display Normals"
     IDS_WN_NORMAL_LENGTH    "Display Length"
+    IDS_DISPLAY_HARD_EDGES  "Display Hard Edges"
+    IDS_HARD_EDGE_COLOR     "Hard Edge Color"
 END

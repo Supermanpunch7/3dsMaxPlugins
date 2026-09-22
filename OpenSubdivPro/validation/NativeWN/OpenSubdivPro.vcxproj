@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Hybrid|x64">
+      <Configuration>Hybrid</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{C01B4F48-2AD4-46D7-AFC5-73C77541F25E}</ProjectGuid>
+    <RootNamespace>OpenSubdivPro</RootNamespace>
+    <MaxSDK Condition="'$(MaxSDK)' == '' and '$(ADSK_3DSMAX_SDK_2027)' != ''">$(ADSK_3DSMAX_SDK_2027)</MaxSDK>
+    <MaxSDK Condition="'$(MaxSDK)' == ''">C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk</MaxSDK>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <Import Project="$(MaxSDK)\ProjectSettings\PropertySheets\3dsmax.general.project.settings.props" />
+  <Import Project="$(GeomProps)" />
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(MaxSDK)\ProjectSettings\PropertySheets\3dsmax.cpp.props" />
+  </ImportGroup>
+  <PropertyGroup>
+    <OutDir>$(MSBuildProjectDirectory)\bin\$(Configuration)\</OutDir>
+    <IntDir>$(MSBuildProjectDirectory)\obj\$(Platform)\$(Configuration)\</IntDir>
+    <IntermediateOutputPath>$(IntDir)</IntermediateOutputPath>
+    <TargetName>OpenSubdivProWNValidation</TargetName>
+    <TargetExt>.dlm</TargetExt>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(QTDIR)\include;$(MaxSdkInc);C:\Users\ksi\AppData\Local\Autodesk\3dsMax\2027 - 64bit\ENU\3dsMaxPlugins\OpenSubdivPro\third_party\OpenSubdiv\install\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>QT_CORE_LIB;QT_GUI_LIB;QT_WIDGETS_LIB;WIN32_LEAN_AND_MEAN;NOMINMAX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+    </ClCompile>
+    <ResourceCompile>
+      <AdditionalIncludeDirectories>$(MaxSdkInc);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Link>
+      <AdditionalLibraryDirectories>$(QTDIR)\lib;$(MaxSdkLib);C:\Users\ksi\AppData\Local\Autodesk\3dsMax\2027 - 64bit\ENU\3dsMaxPlugins\OpenSubdivPro\third_party\OpenSubdiv\install\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <ModuleDefinitionFile>.\OpenSubdivPro.def</ModuleDefinitionFile>
+      <AdditionalDependencies>Qt6Widgets.lib;Qt6Gui.lib;Qt6Core.lib;core.lib;maxutil.lib;mesh.lib;mnmath.lib;paramblk2.lib;poly.lib;osdCPU.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="OpenSubdivPro.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="resource.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="OpenSubdivPro.def" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="OpenSubdivPro.rc" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+</Project>
