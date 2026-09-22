@@ -72,7 +72,8 @@ public:
     LocalModData* Clone() override { return new PairContext(); }
 };
 
-// Defaults revision 2026-09-21: user screenshots; new instances only.
+// Defaults revision 2026-09-21b: stage 1 Smooth off; stage 2 Same Materials.
+// Applied to new instances only; scene loading and cloning preserve settings.
 template<class T> static void SetInitialValue(Modifier* m, const TCHAR* name, T value) {
     for (int b = 0; b < m->NumParamBlocks(); ++b) {
         auto* block = m->GetParamBlock(b);
@@ -106,14 +107,14 @@ static void ApplyInitialSettings(Modifier* m, int stage) {
     SetInitialValue(m, _T("insetoffset"), (stage == 0 ? -0.2f : 0.0f) * cm);
     SetInitialValue(m, _T("selectionoption"), 5);
     SetInitialValue(m, _T("smoothingoption"), 2);
-    SetInitialValue(m, _T("materialoption"), stage == 0 ? 1 : 0);
+    SetInitialValue(m, _T("materialoption"), stage == 0 ? 1 : 2);
     SetInitialValue(m, _T("useminangle"), 0);
     SetInitialValue(m, _T("minangle"), 20.0f);
     SetInitialValue(m, _T("usemaxangle"), 0);
     SetInitialValue(m, _T("maxangle"), 90.0f);
     SetInitialValue(m, _T("setmaterial"), 0);
     SetInitialValue(m, _T("materialID"), 1);
-    SetInitialValue(m, _T("smooth"), 1);
+    SetInitialValue(m, _T("smooth"), stage == 0 ? 0 : 1);
     SetInitialValue(m, _T("SmoothType"), 1);
     SetInitialValue(m, _T("smoothtoadjacent"), 1);
     SetInitialValue(m, _T("smooththreshold"), stage == 0 ? 30.0f : 180.0f);

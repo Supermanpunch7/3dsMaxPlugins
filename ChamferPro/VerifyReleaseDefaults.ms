@@ -2,8 +2,8 @@
  local root = @"C:\Users\ksi\AppData\Local\Autodesk\3dsMax\2027 - 64bit\ENU\3dsMaxPlugins\ChamferPro\"
  local report = createFile (root + "defaults-release-validation.log")
  try (
-  pluginManager.loadClass Chmferpro
-  local m = Chmferpro()
+  pluginManager.loadClass ChamferPro
+  local m = ChamferPro()
   local a = m.chamfer1
   local b = m.chamfer2
   local expected = #(
@@ -13,9 +13,9 @@
    #(#limiteffect,true,true), #(#addinset,true,false), #(#insetType,0,0),
    #(#insetamount,units.decodeValue "0.2cm",units.decodeValue "0.5cm"),
    #(#insetsegments,0,0), #(#insetoffset,units.decodeValue "-0.2cm",0.0),
-   #(#selectionoption,5,5), #(#smoothingoption,2,2), #(#materialoption,1,0),
+   #(#selectionoption,5,5), #(#smoothingoption,2,2), #(#materialoption,1,2),
    #(#useminangle,false,false), #(#usemaxangle,false,false), #(#setmaterial,false,false),
-   #(#smooth,true,true), #(#SmoothType,1,1), #(#smoothtoadjacent,true,true),
+   #(#smooth,false,true), #(#SmoothType,1,1), #(#smoothtoadjacent,true,true),
    #(#smooththreshold,30.0,180.0), #(#openchamfer,false,false), #(#invert,false,false))
   for row in expected do (
    for i = 1 to 2 do (

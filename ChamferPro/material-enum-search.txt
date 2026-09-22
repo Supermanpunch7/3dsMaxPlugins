@@ -1,0 +1,25 @@
+
+C:\Program Files\Autodesk
+\3ds Max 2027 SDK\maxsdk\
+include\mesh.h:2914:		the
+ same geometry. These obj
+ects share the same mater
+ials and modifiers. The o
+nly difference
+C:\Program Files\Autodesk
+\3ds Max 2027 SDK\maxsdk\
+include\mesh.h:2933:		the
+ same geometry. These obj
+ects shares same material
+s and modifiers. The only
+ difference
+C:\Program Files\Autodesk
+\3ds Max 2027 SDK\maxsdk\
+include\mnmesh.h:5374:		t
+he same geometry. These o
+bjects shares same materi
+als and modifiers. The on
+ly difference
+
+
+

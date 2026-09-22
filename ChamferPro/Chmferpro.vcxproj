@@ -22,8 +22,8 @@
     <Import Project="$(MaxSDK)\ProjectSettings\PropertySheets\3dsmax.cpp.props" />
   </ImportGroup>
   <PropertyGroup>
-    <OutDir>$(MSBuildProjectDirectory)\bin\Chmferpro\</OutDir>
-    <IntDir>$(MSBuildProjectDirectory)\obj\Chmferpro\</IntDir>
+    <OutDir>$(MSBuildProjectDirectory)\bin\DefaultsB\</OutDir>
+    <IntDir>$(MSBuildProjectDirectory)\obj\DefaultsB\</IntDir>
     <TargetName>ChamferPro</TargetName>
     <TargetExt>.dlm</TargetExt>
   </PropertyGroup>
