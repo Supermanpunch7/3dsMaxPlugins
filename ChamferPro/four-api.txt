@@ -1,0 +1,22 @@
+﻿
+C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\MNNormalSpec.h:70:	DllExport void SetDegree (int degree);
+C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\MNNormalSpec.h:188:	/*!   \remarks Typical = operator - calls SetDegree to make this face
+C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\MNNormalSpec.h:364:	DllExport bool SetNumFaces (int numFaces);
+C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\MNNormalSpec.h:848:	DllExport bool SpecifyNormals (BOOL useSel=true, BitArray *normalSelection=nullptr);
+C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\mnmesh.h:219:#define EDATA_DEPTH 3
+C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\mnmesh.h:1035:	DllExport void setNumFaces (int nfnum);
+C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\mnmesh.h:2015:	DllExport void setNumEData (int ct, BOOL keep=FALSE);
+C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\mnmesh.h:2297:	DllExport void setNumFaces (int nfnum);
+C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\mnmesh.h:3201:	DllExport Point3 GetFaceNormal (int fc, bool nrmlz=FALSE);	//o(deg)
+C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\mnmesh.h:5263:	DllExport MNNormalSpec *GetSpecifiedNormals();
+C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\mnmesh.h:5271:	DllExport MNNormalSpec *GetSpecifiedNormalsForDisplay();	
+C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\mnmesh.h:5281:	DllExport void SpecifyNormals ();
+C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\mesh.h:504:	DllExport void setNumFaces (int fn, BOOL keep=FALSE, int oldCt=0);
+C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\mesh.h:1311:		/*! To modify use the Mesh interface methods such as "setNumFaces".
+C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\mesh.h:1569:		DllExport BOOL	setNumFaces(int ct, BOOL keep=FALSE, BOOL synchSel=TRUE);
+C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\mesh.h:1966:		DllExport Point3 &	getFaceNormal(int i);
+C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\mesh.h:1970:		DllExport Point3 *	getFaceNormalPtr(int i);
+C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\mesh.h:2851:		DllExport MeshNormalSpec *GetSpecifiedNormals ();
+C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\mesh.h:2852:		DllExport void SpecifyNormals ();
+
+

@@ -1,0 +1,2 @@
+@echo off
+"C:\Program Files\Autodesk\3ds Max 2027\3dsmaxbatch.exe" "C:\Users\ksi\AppData\Local\Autodesk\3dsMax\2027 - 64bit\ENU\3dsMaxPlugins\ChamferPro\CompareNative.ms" -v 4 > "C:\Users\ksi\AppData\Local\Autodesk\3dsMax\2027 - 64bit\ENU\3dsMaxPlugins\ChamferPro\CompareNative-batch.log" 2>&1

@@ -1,0 +1,45 @@
+﻿
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:404:
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:405:/**This class allows a modifier to store application specific data. A reference to
+> C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:406:a pointer to an instance of this class is passed in to ModifyObject() as
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:407:part of the ModContext. The value of the pointer starts out as NULL, but
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:408:the modifier can set it to point at an actual instance of a derived class. When
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:409:the mod app is deleted, if the pointer is not NULL, the LocalModData
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:410:will be deleted - the virtual destructor allows this to work.  
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:1915:	defObjectClassID, it is thus responsible for transforming the points
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:1916:	of the object into world space itself. It does this in its implementation
+> C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:1917:	of ModifyObject() as follows: 
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:1918:	\code
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:1919:	if (os->GetTM())
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:1920:	{
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:1921:		Matrix3 tm = *(os->GetTM());
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:1944:	TriObjects, just like the Bomb, the system cannot transform the
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:1945:	points into world space, and therefore the camera mapping modifier must do
+> C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:1946:	so in its implementation of ModifyObject(). But since it is actually
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:1947:	altering the points of the object by putting them into world space it
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:1948:	is altering the geometry channel. Therefore, it should really
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:1949:	specify GEOM_CHANNEL | TEXMAP_CHANNEL in its implementation of
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:1950:	ChannelsChanged(). If it didn't do this, but went ahead and modified
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:2710:	\return  The viewparams returned by apply which are supplied to the
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:2711:	renderer. */
+> C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:2712:	virtual ViewParams *Apply(INode *pCameraNode, CameraObject *pCameraObject, int passNum, TimeValue &overrideRenderTime) = 0;
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:2713:	
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:2714:	// allows the effect to blend its own passes (not used by the viewport renderer)
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:2715:	/** This method will blend each pass (src) into the final
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:2716:	accumulator (dest).
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:5478:	combination of the validity of all the modifier's parameters. It's used to
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:5479:	determine when to cache in the pipeline, but is not directly responsible
+> C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:5480:	for determining when ModifyObject() is called. ModifyObject()
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:5481:	is called when the pipeline needs to be evaluated either because someone
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:5482:	sent a \ref REFMSG_CHANGE message or the validity of the object does not
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:5483:	include the current time.
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:5484:	\par If a modifier is not animated it's OK to simply return FOREVER from
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:5635:	\sa The topic on ~{ Modifiers }~ in the
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:5636:	Programmers Guide. */
+> C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:5637:	virtual void ModifyObject(TimeValue t, ModContext &mc, ObjectState* os, INode *node)=0;
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:5638://! @}
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:5639:
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:5640://! \name Topology Dependence
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:5641://! @{
+
+

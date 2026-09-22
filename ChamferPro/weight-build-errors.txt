@@ -1,0 +1,23 @@
+﻿
+C:\Users\ksi\AppData\Local\Autodesk\3dsMax\2027 - 64bit\ENU\3dsMaxPlugins\ChamferPro\WeightDiagnostic.h(93,148): error C4839: 
+variadic ?⑥닔???몄닔濡쒖꽌 'MaxSDK::BlockWrite_Value<int,MaxSDK::MNTopoChannelData>' ?대옒?ㅻ? 鍮꾪몴以 諛⑹떇?쇰줈 ?ъ슜?덉뒿?덈떎. [C:\Users\ksi\Ap
+pData\Local\Autodesk\3dsMax\2027 - 64bit\ENU\3dsMaxPlugins\ChamferPro\WeightDiagnostic.vcxproj]
+C:\Users\ksi\AppData\Local\Autodesk\3dsMax\2027 - 64bit\ENU\3dsMaxPlugins\ChamferPro\WeightDiagnostic.h(93,201): error C2280: 
+'MaxSDK::BlockWrite_Value<int,MaxSDK::MNTopoChannelData>::BlockWrite_Value(MaxSDK::BlockWrite_Value<int,MaxSDK::MNTopoChannelD
+ata> &)': ??젣???⑥닔瑜?李몄“?섎젮怨??⑸땲?? [C:\Users\ksi\AppData\Local\Autodesk\3dsMax\2027 - 64bit\ENU\3dsMaxPlugins\ChamferPro\Weight
+Diagnostic.vcxproj]
+C:\Users\ksi\AppData\Local\Autodesk\3dsMax\2027 - 64bit\ENU\3dsMaxPlugins\ChamferPro\WeightDiagnostic.h(93,139): error C4839: 
+variadic ?⑥닔???몄닔濡쒖꽌 'MaxSDK::BlockWrite_Value<int,MaxSDK::MNGeomChannelData>' ?대옒?ㅻ? 鍮꾪몴以 諛⑹떇?쇰줈 ?ъ슜?덉뒿?덈떎. [C:\Users\ksi\Ap
+pData\Local\Autodesk\3dsMax\2027 - 64bit\ENU\3dsMaxPlugins\ChamferPro\WeightDiagnostic.vcxproj]
+C:\Users\ksi\AppData\Local\Autodesk\3dsMax\2027 - 64bit\ENU\3dsMaxPlugins\ChamferPro\WeightDiagnostic.h(93,201): error C2280: 
+'MaxSDK::BlockWrite_Value<int,MaxSDK::MNGeomChannelData>::BlockWrite_Value(MaxSDK::BlockWrite_Value<int,MaxSDK::MNGeomChannelD
+ata> &)': ??젣???⑥닔瑜?李몄“?섎젮怨??⑸땲?? [C:\Users\ksi\AppData\Local\Autodesk\3dsMax\2027 - 64bit\ENU\3dsMaxPlugins\ChamferPro\Weight
+Diagnostic.vcxproj]
+C:\Users\ksi\AppData\Local\Autodesk\3dsMax\2027 - 64bit\ENU\3dsMaxPlugins\ChamferPro\WeightDiagnostic.h(93,130): error C4839: 
+variadic ?⑥닔???몄닔濡쒖꽌 'MaxSDK::BlockWrite_Value<int,MaxSDK::MNTopoChannelData>' ?대옒?ㅻ? 鍮꾪몴以 諛⑹떇?쇰줈 ?ъ슜?덉뒿?덈떎. [C:\Users\ksi\Ap
+pData\Local\Autodesk\3dsMax\2027 - 64bit\ENU\3dsMaxPlugins\ChamferPro\WeightDiagnostic.vcxproj]
+C:\Users\ksi\AppData\Local\Autodesk\3dsMax\2027 - 64bit\ENU\3dsMaxPlugins\ChamferPro\WeightDiagnostic.h(93,121): error C4839: 
+variadic ?⑥닔???몄닔濡쒖꽌 'MaxSDK::BlockWrite_Value<int,MaxSDK::MNGeomChannelData>' ?대옒?ㅻ? 鍮꾪몴以 諛⑹떇?쇰줈 ?ъ슜?덉뒿?덈떎. [C:\Users\ksi\Ap
+pData\Local\Autodesk\3dsMax\2027 - 64bit\ENU\3dsMaxPlugins\ChamferPro\WeightDiagnostic.vcxproj]
+
+

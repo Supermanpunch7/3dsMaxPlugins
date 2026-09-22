@@ -1,0 +1,9 @@
+#include <windows.h>
+201 DIALOGEX 0, 0, 186, 54
+STYLE DS_SETFONT | WS_CHILD | WS_VISIBLE
+FONT 8, "MS Shell Dlg"
+BEGIN
+    CONTROL "Chamfer 1", 1001, "Button", BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP, 8, 8, 78, 14
+    CONTROL "Chamfer 2", 1002, "Button", BS_AUTORADIOBUTTON | WS_TABSTOP, 96, 8, 78, 14
+    LTEXT "Native order: Chamfer 1 -> Chamfer 2", -1, 8, 30, 172, 16
+END

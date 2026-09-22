@@ -11,3 +11,4 @@ Custom C++ plugins for Autodesk 3ds Max.
 
 - Autodesk 3ds Max 2027 SDK (or compatible version)
 - Visual Studio 2022 (MSVC C++ Toolset)
+

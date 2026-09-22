@@ -1,0 +1,3 @@
+$ErrorActionPreference = 'Stop'
+$env:CHAMFERPRO_LAB_LOG = "$PSScriptRoot\lab-ancestry-current.log"
+Start-Process -FilePath 'C:\Program Files\Autodesk\3ds Max 2027\3dsmaxbatch.exe' -ArgumentList ('"' + $PSScriptRoot + '\TestLineageLab.ms" -v 4') -RedirectStandardOutput "$PSScriptRoot\lab-detached.log" -RedirectStandardError "$PSScriptRoot\lab-detached-error.log" -PassThru | Select-Object Id,StartTime | Out-File "$PSScriptRoot\lab-detached-process.txt" -Encoding utf8

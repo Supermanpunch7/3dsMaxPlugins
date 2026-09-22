@@ -1,0 +1,19 @@
+﻿
+C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\iepoly.h:1257:	For instance, <b>ResetEdgeData (EDATA_CREASE)</b> would reset all edge
+C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\iepoly.h:1275:	<b>BeginPerDataModify (MNM_SL_EDGE, EDATA_CREASE)</b> would be used before
+C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\iEPolyMod.h:2043:	* \param[in] channel - See mnmesh.h for edge channel numbers (EDATA_XXX).
+C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\iEPolyMod.h:2059:	* \param[in] channel - See mnmesh.h for edge channel numbers (EDATA_XXX).
+C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\iEPolyMod.h:2067:	* \param[in] channel - See mesh.h for vertex channel numbers (VDATA_XXX) and mnmesh.h for edge channel numbers (EDATA_XXX).
+C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\iEPolyMod.h:2073:	* \param[in] channel - See mesh.h for vertex channel numbers (VDATA_XXX) and mnmesh.h for edge channel numbers (EDATA_XXX).
+C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\mnmesh.h:61:#define MNMESH_FACEDATA_IMPL
+C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\mnmesh.h:214:#define EDATA_KNOT 0
+C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\mnmesh.h:216:#define EDATA_CREASE 1
+C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\mnmesh.h:217:#define EDATA_COLOR 2
+C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\mnmesh.h:219:#define EDATA_DEPTH 3
+C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\mnmesh.h:297:#define MNDISP_USE_EDGE_COLORS 0x400 //!< Set when edge color data (EDATA_COLOR, if present) should be used to draw vertices (used by OpenSubdiv)
+C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\mnmesh.h:2067:	float *getEdgeKnots () { return edgeFloat(EDATA_KNOT); }
+C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\mnmesh.h:2068:	/** Sets the channel support for the edge knot channel (EDATA_KNOT). */
+C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\mnmesh.h:2069:	void SupportEdgeKnots () { setEDataSupport (EDATA_KNOT); }
+C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\mnmesh.h:2071:	void freeEdgeKnots () { freeEData (EDATA_KNOT); }
+
+

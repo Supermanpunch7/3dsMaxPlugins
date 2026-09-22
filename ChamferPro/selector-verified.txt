@@ -1,0 +1,8 @@
+﻿C:\Users\ksi\AppData\Local\Autodesk\3dsMax\2027 - 64bit\ENU\3dsMaxPlugins\ChamferPro\bin\Chmferpro\ChamferPro.dlm | 292864
+C:\Users\ksi\AppData\Local\Autodesk\3dsMax\2027 - 64bit\ENU\3dsMaxPlugins\ChamferPro\bin\Chmferpro\ChamferPro.ilk | 2275096
+C:\Users\ksi\AppData\Local\Autodesk\3dsMax\2027 - 64bit\ENU\3dsMaxPlugins\ChamferPro\bin\Chmferpro\ChamferPro.pdb | 4116480
+C:\Users\ksi\AppData\Local\Autodesk\3dsMax\2027 - 64bit\ENU\3dsMaxPlugins\ChamferPro\bin\Chmferpro\ChamferPro.stripped.pdb | 495616
+C:\Users\ksi\AppData\Local\Autodesk\3dsMax\2027 - 64bit\ENU\3dsMaxPlugins\ChamferPro\bin\Chmferpro\en-US\ChamferPro.dlm.mui | 1536
+Installed hash: 01A0690B62B673FF3B792234731AA0A7530B89CF0E8EAFD323A0631D38716900
+Built hash: 01A0690B62B673FF3B792234731AA0A7530B89CF0E8EAFD323A0631D38716900
+C:\Users\ksi\AppData\Local\Autodesk\3dsMax\2027 - 64bit\ENU\3dsMaxPlugins\ChamferPro\bin\Hybrid\en-US\ChamferPro.dlm.mui

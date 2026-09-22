@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Hybrid|x64">
+      <Configuration>Hybrid</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{8DA4A8E6-97C7-4A13-9AE9-2E6C93D71925}</ProjectGuid>
+    <RootNamespace>ChamferPro</RootNamespace>
+    <MaxSDK Condition="'$(MaxSDK)' == '' and '$(ADSK_3DSMAX_SDK_2027)' != ''">$(ADSK_3DSMAX_SDK_2027)</MaxSDK>
+    <MaxSDK Condition="'$(MaxSDK)' == ''">C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk</MaxSDK>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <Import Project="$(MaxSDK)\ProjectSettings\PropertySheets\3dsmax.general.project.settings.props" />
+  <Import Project="$(GeomProps)" />
+  <Import Condition="'$(conan_onetbb_props_imported)' != 'True' And '$(maxsdk_onetbb_props_imported)' != 'True'" Project="$(OneTBBProps)" />
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(MaxSDK)\ProjectSettings\PropertySheets\3dsmax.cpp.props" />
+  </ImportGroup>
+  <PropertyGroup>
+    <OutDir>$(MSBuildProjectDirectory)\bin\R5Defaults\</OutDir>
+    <IntDir>$(MSBuildProjectDirectory)\obj\R5Defaults\</IntDir>
+    <TargetName>ChamferProR5Defaults</TargetName>
+    <TargetExt>.dlm</TargetExt>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(MaxSdkInc);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <ConformanceMode>true</ConformanceMode>
+      <ProgramDataBaseFileName>$(IntDir)$(TargetName).pdb</ProgramDataBaseFileName>
+    </ClCompile>
+    <Link>
+      <AdditionalLibraryDirectories>$(MaxSdkLib);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>core.lib;maxutil.lib;mesh.lib;mnmath.lib;paramblk2.lib;poly.lib;geom.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <ProgramDatabaseFile>$(OutDir)$(TargetName).pdb</ProgramDatabaseFile>
+      <StripPrivateSymbols>$(OutDir)$(TargetName).stripped.pdb</StripPrivateSymbols>
+    </Link>
+    <ResourceCompile>
+      <AdditionalIncludeDirectories>$(MSBuildProjectDirectory);$(MaxSdkInc);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="R5Defaults.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="NativePrototype.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="resource.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+</Project>

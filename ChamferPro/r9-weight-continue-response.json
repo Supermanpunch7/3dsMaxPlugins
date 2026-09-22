@@ -1,0 +1,21 @@
+"2"개의 인수가 있는 "Connect"을(를
+) 호출하는 동안 예외가 발생했습니다. "대상
+ 컴퓨터에서 연결을 거부했으므로 연결하지 못했
+습니다 127.0.0.1:60640"
+위치 C:\Users\ksi\AppData\L
+ocal\Autodesk\3dsMax\2027
+ - 64bit\ENU\3dsMaxPlugin
+s\ChamferPro\McpResearch.
+ps1:5 문자:5
++     $client.Connect('12
+7.0.0.1', 60640)
++     ~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~
+    + CategoryInfo       
+       : NotSpecified:   
+  (:) [], MethodInvoca   
+ tionException
+    + FullyQualifiedErro 
+   rId : SocketExceptio  
+  n
+ 

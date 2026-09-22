@@ -1,0 +1,137 @@
+﻿
+C:\Program Files\Autodesk
+\3ds Max 2027 SDK\maxsdk\
+include\mnmesh.h:1226:<tr
+><td><b>BitArray edSuppor
+t</b>, moved to \ref MaxS
+DK::MNTopoChannelData.<td
+>\ref MNMesh::eDataSuppor
+t(int edChannel) const, \
+ref  MNMesh::setEDataSupp
+ort(int edChannel, BOOL s
+upport), \ref MNMesh::EDN
+um() const, \ref MNMesh::
+EDNumSupported() const
+C:\Program Files\Autodesk
+\3ds Max 2027 SDK\maxsdk\
+include\mnmesh.h:1228:<tr
+><td><b>BitArray vdSuppor
+t</b>, moved to \ref MaxS
+DK::MNGeomChannelData.<td
+>\ref MNMesh::vDataSuppor
+t(int vdChannel) const,\r
+ef MNMesh::setVDataSuppor
+t(int vdChannel, BOOL sup
+port),\ref MNMesh::VDNum(
+) const,\ref MNMesh::VDNu
+mSupported() const
+C:\Program Files\Autodesk
+\3ds Max 2027 SDK\maxsdk\
+include\mnmesh.h:1938:	Dl
+lExport int VDNum() const
+;
+C:\Program Files\Autodesk
+\3ds Max 2027 SDK\maxsdk\
+include\mnmesh.h:1940:	Dl
+lExport int VDNumSupporte
+d() const;
+C:\Program Files\Autodesk
+\3ds Max 2027 SDK\maxsdk\
+include\mnmesh.h:1947:	Dl
+lExport BOOL vDataSupport
+(int vdChannel) const;
+C:\Program Files\Autodesk
+\3ds Max 2027 SDK\maxsdk\
+include\mnmesh.h:1957:	Dl
+lExport void setVDataSupp
+ort (int vdChannel, BOOL 
+support=TRUE);
+C:\Program Files\Autodesk
+\3ds Max 2027 SDK\maxsdk\
+include\mnmesh.h:1965:	vo
+id *vertexData (int vdCha
+nnel) const { return vDat
+aSupport(vdChannel) ? Get
+VD(vdChannel)->data : nul
+lptr; }
+C:\Program Files\Autodesk
+\3ds Max 2027 SDK\maxsdk\
+include\mnmesh.h:1972:	fl
+oat *vertexFloat (int vdC
+hannel) const { return (f
+loat *) vertexData (vdCha
+nnel); }
+C:\Program Files\Autodesk
+\3ds Max 2027 SDK\maxsdk\
+include\mnmesh.h:1989:	fl
+oat *getVertexWeights () 
+{ return vertexFloat(VDAT
+A_WEIGHT); }
+C:\Program Files\Autodesk
+\3ds Max 2027 SDK\maxsdk\
+include\mnmesh.h:1992:	vo
+id SupportVertexWeights (
+) { setVDataSupport (VDAT
+A_WEIGHT); }
+C:\Program Files\Autodesk
+\3ds Max 2027 SDK\maxsdk\
+include\mnmesh.h:1996:	fl
+oat *getVSelectionWeights
+ () { return vertexFloat(
+VDATA_SELECT); }
+C:\Program Files\Autodesk
+\3ds Max 2027 SDK\maxsdk\
+include\mnmesh.h:1999:	vo
+id SupportVSelectionWeigh
+ts () { setVDataSupport (
+VDATA_SELECT); }
+C:\Program Files\Autodesk
+\3ds Max 2027 SDK\maxsdk\
+include\mnmesh.h:2017:	Dl
+lExport int EDNum() const
+;
+C:\Program Files\Autodesk
+\3ds Max 2027 SDK\maxsdk\
+include\mnmesh.h:2019:	Dl
+lExport int EDNumSupporte
+d() const;
+C:\Program Files\Autodesk
+\3ds Max 2027 SDK\maxsdk\
+include\mnmesh.h:2026:	Dl
+lExport BOOL eDataSupport
+ (int edChannel) const;
+C:\Program Files\Autodesk
+\3ds Max 2027 SDK\maxsdk\
+include\mnmesh.h:2034:	Dl
+lExport void setEDataSupp
+ort (int edChannel, BOOL 
+support=TRUE);
+C:\Program Files\Autodesk
+\3ds Max 2027 SDK\maxsdk\
+include\mnmesh.h:2043:	vo
+id *edgeData (int edChann
+el) const { return eDataS
+upport(edChannel) ? GetED
+(edChannel)->data : nullp
+tr; }
+C:\Program Files\Autodesk
+\3ds Max 2027 SDK\maxsdk\
+include\mnmesh.h:2050:	fl
+oat *edgeFloat (int edCha
+nnel) const { return (flo
+at *) edgeData (edChannel
+); }
+C:\Program Files\Autodesk
+\3ds Max 2027 SDK\maxsdk\
+include\mnmesh.h:2067:	fl
+oat *getEdgeKnots () { re
+turn edgeFloat(EDATA_KNOT
+); }
+C:\Program Files\Autodesk
+\3ds Max 2027 SDK\maxsdk\
+include\mnmesh.h:2069:	vo
+id SupportEdgeKnots () { 
+setEDataSupport (EDATA_KN
+OT); }
+
+

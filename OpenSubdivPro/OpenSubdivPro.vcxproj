@@ -23,6 +23,7 @@
   <PropertyGroup>
     <OutDir>$(MSBuildProjectDirectory)\bin\$(Configuration)\</OutDir>
     <IntDir>$(MSBuildProjectDirectory)\obj\$(Platform)\$(Configuration)\</IntDir>
+    <IntermediateOutputPath>$(IntDir)</IntermediateOutputPath>
     <TargetName>OpenSubdivPro</TargetName>
     <TargetExt>.dlm</TargetExt>
   </PropertyGroup>

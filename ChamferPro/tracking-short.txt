@@ -1,0 +1,139 @@
+﻿
+  C:\Program Files\Autode
+sk\3ds Max 2027 SDK\maxsd
+k\include\mnmesh.h:90:#de
+fine MN_VERT_WELDED (1<<9
+)       //!< Used by MNMe
+sh::WeldBorderVerts()
+> C:\Program Files\Autode
+sk\3ds Max 2027 SDK\maxsd
+k\include\mnmesh.h:91:#de
+fine MN_VERT_SUBDIVISION_
+CORNER (1<<10) //!< Track
+ which vertices are direc
+t "descendants" of the or
+iginal cage vertices in s
+ubdivision.
+  C:\Program Files\Autode
+sk\3ds Max 2027 SDK\maxsd
+k\include\mnmesh.h:92://!
+@}
+  C:\Program Files\Autode
+sk\3ds Max 2027 SDK\maxsd
+k\include\mnmesh.h:97:#de
+fine MN_EDGE_NOCROSS (1<<
+9)      //!< This edge sh
+ould not be crossed in al
+gorithms like MNMesh::Sab
+inDoo that can mix faces 
+across edges.
+> C:\Program Files\Autode
+sk\3ds Max 2027 SDK\maxsd
+k\include\mnmesh.h:98:#de
+fine MN_EDGE_MAP_SEAM (1<
+<10)    //!< Track which 
+edges are direct descenda
+nts of the original cage 
+edges in subdivision.
+> C:\Program Files\Autode
+sk\3ds Max 2027 SDK\maxsd
+k\include\mnmesh.h:99:#de
+fine MN_EDGE_SUBDIVISION_
+BOUNDARY (1<<11)  //!< Tr
+ack unwanted edges create
+d by Cut, so they might b
+e removed later.
+  C:\Program Files\Autode
+sk\3ds Max 2027 SDK\maxsd
+k\include\mnmesh.h:100:#d
+efine MN_EDGE_CUT_EXTRA (
+1<<12)   //!< Used with M
+NMesh::CutPrepare() and M
+NMEsh::CutCleanUp()
+  C:\Program Files\Autode
+sk\3ds Max 2027 SDK\maxsd
+k\include\mnmesh.h:331:
+> C:\Program Files\Autode
+sk\3ds Max 2027 SDK\maxsd
+k\include\mnmesh.h:332://
+ A wrapper around the int
+ MNVert::orig member adde
+d as an optimization. Sin
+ce the default value of o
+rig is -1,
+  C:\Program Files\Autode
+sk\3ds Max 2027 SDK\maxsd
+k\include\mnmesh.h:333://
+ we simply add 1 to it in
+ memory. This allows us t
+o allocate an array of MN
+Verts more quickly becaus
+e its as all 0's.
+  C:\Program Files\Autode
+sk\3ds Max 2027 SDK\maxsd
+k\include\mnmesh.h:334://
+ Accessing the value as a
+n int return the correct 
+value by subtracting 1.
+> C:\Program Files\Autode
+sk\3ds Max 2027 SDK\maxsd
+k\include\mnmesh.h:335:cl
+ass MNVertOrigWrapper : p
+ublic MaxHeapOperators
+  C:\Program Files\Autode
+sk\3ds Max 2027 SDK\maxsd
+k\include\mnmesh.h:336:{
+  C:\Program Files\Autode
+sk\3ds Max 2027 SDK\maxsd
+k\include\mnmesh.h:338:pr
+otected:
+> C:\Program Files\Autode
+sk\3ds Max 2027 SDK\maxsd
+k\include\mnmesh.h:339:	i
+nt orig = 0; //!< Origina
+l point this vertex comes
+ from. Stored as zero bas
+ed, return value - 1 upon
+ access.
+  C:\Program Files\Autode
+sk\3ds Max 2027 SDK\maxsd
+k\include\mnmesh.h:340:pu
+blic:
+> C:\Program Files\Autode
+sk\3ds Max 2027 SDK\maxsd
+k\include\mnmesh.h:341:	M
+NVertOrigWrapper() = defa
+ult;
+> C:\Program Files\Autode
+sk\3ds Max 2027 SDK\maxsd
+k\include\mnmesh.h:342:	M
+NVertOrigWrapper(MNVertOr
+igWrapper&) = default;
+> C:\Program Files\Autode
+sk\3ds Max 2027 SDK\maxsd
+k\include\mnmesh.h:343:	M
+NVertOrigWrapper(MNVertOr
+igWrapper&&) = default;
+  C:\Program Files\Autode
+sk\3ds Max 2027 SDK\maxsd
+k\include\mnmesh.h:344:
+> C:\Program Files\Autode
+sk\3ds Max 2027 SDK\maxsd
+k\include\mnmesh.h:345:	M
+NVertOrigWrapper& operato
+r=(const MNVertOrigWrappe
+r&) = default;
+> C:\Program Files\Autode
+sk\3ds Max 2027 SDK\maxsd
+k\include\mnmesh.h:346:	M
+NVertOrigWrapper& operato
+r=(MNVertOrigWrapper&&) =
+ default;
+> C:\Program Files\Autode
+sk\3ds Max 2027 SDK\maxsd
+k\include\mnmesh.h:347:	M
+NVertOrigWrapper& operato
+r=(int& i) { orig = i + 1
+; return *this; }
+
+

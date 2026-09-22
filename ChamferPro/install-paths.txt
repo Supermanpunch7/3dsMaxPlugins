@@ -1,0 +1,13 @@
+﻿
+FullName                                                                                                                                                                                                 
+--------                                                                                                                                                                                                 
+C:\Users\ksi\AppData\Local\Autodesk\3dsMax\2027 - 64bit\ENU\Plugin.UserSettings.ini                                                                                                                      
+C:\Users\ksi\AppData\Local\Autodesk\3dsMax\2027 - 64bit\ENU\en-US\plugcfg\ExplorerConfig\SceneExplorer\DefaultMissingPluginEntitiesExplorer.ini                                                          
+C:\Users\ksi\AppData\Local\Autodesk\3dsMax\2027 - 64bit\ENU\usermacros\.codex-chamferpro-fix\CleanProfile\Plugin.UserSettings.ini                                                                        
+C:\Users\ksi\AppData\Local\Autodesk\3dsMax\2027 - 64bit\ENU\usermacros\.codex-chamferpro-fix\CleanProfile\en-US\plugcfg\ExplorerConfig\SceneExplorer\DefaultMissingPluginEntitiesExplorer.ini            
+C:\Users\ksi\AppData\Local\Autodesk\3dsMax\2027 - 64bit\ENU\usermacros\.codex-chamferpro-fix\ValidationProfile\Plugin.UserSettings.ini                                                                   
+C:\Users\ksi\AppData\Local\Autodesk\3dsMax\2027 - 64bit\ENU\usermacros\.codex-chamferpro-fix\ValidationProfileEnvOnly\Plugin.UserSettings.ini                                                            
+C:\Users\ksi\AppData\Local\Autodesk\3dsMax\2027 - 64bit\ENU\usermacros\.codex-chamferpro-fix\ValidationProfileEnvOnly\en-US\plugcfg\ExplorerConfig\SceneExplorer\DefaultMissingPluginEntitiesExplorer.ini
+C:\Users\ksi\AppData\Local\Autodesk\3dsMax\2027 - 64bit\ENU\usermacros\.codex-chamferpro-fix\ValidationProfileNoApps\Plugin.UserSettings.ini                                                             
+
+

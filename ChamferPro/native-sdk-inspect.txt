@@ -1,0 +1,266 @@
+﻿
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:408:the modifier can set it to point at an actual instance of a derived class. When
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:409:the mod app is deleted, if the pointer is not NULL, the LocalModData
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:410:will be deleted - the virtual destructor allows this to work.  
+> C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:411:\see  Class ModContext
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:412:*/
+> C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:413:class LocalModData : public InterfaceServer {
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:414:public:
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:415:	/** A plug-in using local data should implement this method to free its local
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:416:	data. */
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:417:	virtual ~LocalModData() {}
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:418:
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:419:	/** This method is called to allow a plug-in to copy its local data. It is
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:420:	called when the system is copying a ModContext.
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:421:	\return  The plug-in should return a pointer to a new instance of its
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:429:/** The ModContext stores information about the space the modifier was applied in,
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:430:and allows the modifier to store data is needs for its operation. All methods
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:431:are implemented by the system.
+> C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:432:\see class LocalModData
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:433:*/
+> C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:434:class ModContext : public BaseInterfaceServer {
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:435:public:
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:436:	/** This matrix represents the space the modifier was applied in. The modifier
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:437:	plug-in uses this matrix when it deforms an object. The plug-in first
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:438:	transforms the points with this matrix. Next it applies its own deformation.
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:439:	Then it transforms the points back through the inverse of this transformation
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:440:	matrix.*/
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:441:	Matrix3                 *tm;
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:442:
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:455:	LocalModData    *localData;
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:456:
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:457:	/** Destructor. The tm, bounding box and local data are freed. */
+> C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:458:	CoreExport ~ModContext();
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:459:
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:460:	/** Constructor. The transformation matrix, bounding box, and
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:461:	local data pointer are initialized to NULL. */
+> C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:462:	CoreExport ModContext();
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:463:
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:464:	/** Constructor. The tm, bounding box and local data are
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:465:	initialized to those of the specified ModContext.
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:466:	\param mc The ModContext to copy. */
+> C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:467:	CoreExport ModContext(const ModContext& mc);
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:468:
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:469:	/** Constructor. The tm, bounding box, and local data are
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:470:	initialized to those specified.
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:471:	\param tm The transform matrix to copy.
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:472:	\param box The bounding box to copy.
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:473:	\param localData The local data that will be cloned. */
+> C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:474:	CoreExport ModContext(Matrix3 *tm, Box3 *box, LocalModData *localData);
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:475:};
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:476:
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:477:/** A modifier may be applied to several objects in the scene. The
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:478:Interface::GetModContexts() method retrieves a list of all the
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:479:ModContexts for the current place in the history. This class is used as a table
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:480:to hold the list of ModContexts. 
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:481:\see Template Class Tab, Class Interface::GetModContexts()*/
+> C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:482:class ModContextList : public Tab<ModContext*> {};
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:483:
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:484:
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:485:class HitRecord;
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:486:
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:487:
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:488:/// \defgroup BaseObject__NewSetByOperator___arguments Arguments for BaseObject::NewSetByOperator()
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:489:/// These are valid arguments for the \c op parameter of the function BaseObject::NewSetByOperator().
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:490://!@{
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:2709:	\param overrideRenderTime The time if you wish to override the render time.
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:2710:	\return  The viewparams returned by apply which are supplied to the
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:2711:	renderer. */
+> C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:2712:	virtual ViewParams *Apply(INode *pCameraNode, CameraObject *pCameraObject, int passNum, TimeValue &overrideRenderTime) = 0;
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:2713:	
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:2714:	// allows the effect to blend its own passes (not used by the viewport renderer)
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:2715:	/** This method will blend each pass (src) into the final
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:2716:	accumulator (dest).
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:2717:	After each pass is rendered, it needs to be combined into the final output
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:2718:	bitmap. The current multipass effects use a dithered combiner, so that hard
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:2719:	edges from the passes are more smoothly blended. There are many ways to do
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:2720:	this, with varying quality, so this method allows different future
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:5363:
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:5364:/** Callback object used with Modifier::EnumModContexts(). The proc()
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:5365:	method is called by the system.  
+> C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:5366:	\see  Class ModContext
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:5367:	*/
+> C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:5368:class ModContextEnumProc: public MaxHeapOperators {
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:5369:public:
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:5370:	/** Destructor */
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:5371:	virtual ~ModContextEnumProc() {;}
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:5372:	/** This is called by Modifier::EnumModContexts().
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:5373:	\param mc The ModContext.
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:5374:	\return  Return FALSE to stop, TRUE to continue. 
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:5375:	\sa  Modifier::EnumModContexts(),
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:5376:	Modifier. */
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:5387:	Space) Modifier plug-ins. This class is subclassed off of BaseObject so
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:5388:	the modifier can put up a graphical representation in the viewport to use as a
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:5389:	gizmo.
+> C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:5390:	\see  Class BaseObject, Class ObjectState, Class ModContext, Class ModContextEnumProc, 
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:5391:	\see Class Interval, Class ISave,  Class ILoad,  Class Class_ID*/
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:5392:class Modifier : public BaseObject {
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:5393:	friend class ModNameRestore;
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:5394:	MSTR modName;
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:5395:public:
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:5396:
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:5397:	CoreExport Modifier();
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:5398:	CoreExport ~Modifier();
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:5436:	history browser.
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:5437:	\return  Nonzero if enabled; otherwise 0. 
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:5438:	  */
+> C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:5439:	virtual int IsEnabled() { return !TestAFlag(A_MOD_DISABLED); }
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:5440:
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:5441:	// Same as above but for viewports only
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:5442:	/** Implemented by the System. 
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:5443:	Disables the modifier in the viewports (it remains active in the renderer
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:5444:	unless DisableMod() above is used). */
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:5445:	CoreExport virtual void DisableModInViews();
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:5446:
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:5447:	/** Implemented by the System. 
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:5451:	/** Implemented by the System. 
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:5452:	Returns nonzero if the modifier is enabled in the view ports; otherwise
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:5453:	zero. */
+> C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:5454:	virtual int IsEnabledInViews() { return !TestAFlag(A_MOD_DISABLED_INVIEWS); }
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:5455:
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:5456:	// Same as above but for renderer only
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:5457:	/** Implemented by the System. 
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:5458:	This turns off the modifier in the renderer 
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:5459:	  */
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:5460:	CoreExport virtual void DisableModInRender();
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:5461:
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:5462:	/** Implemented by the System. 
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:5469:	renderer.
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:5470:	\return  Nonzero if enabled; otherwise 0. 
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:5471:	  */
+> C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:5472:	virtual int IsEnabledInRender() { return !TestAFlag(A_MOD_DISABLED_INRENDER); }
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:5473://! @}
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:5474:
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:5475://! \name Validity Intervals
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:5476://! @{	
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:5477:	/** This method returns the validity interval of a modifier. It is simply the
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:5478:	combination of the validity of all the modifier's parameters. It's used to
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:5479:	determine when to cache in the pipeline, but is not directly responsible
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:5480:	for determining when ModifyObject() is called. ModifyObject()
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:5585:	The modifier may respond in a way appropriate to it, for example by
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:5586:	discarding its cache of the input object. 
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:5587:	It is not legal, to issue a NotifyDependent()'s in the
+> C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:5588:	NotifyInputChanged() method of a modifier, without checking for
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:5589:	reentrancy. Imagine, you have an instanced modifier applied to the same
+> C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:5590:	object in the stack. Sending a refmsg from the NotifyInputChanged
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:5591:	method will cause an endless loop. Simply putting a guard in, that checks
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:5592:	for reentrancy should get rid of the problem.
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:5593:	\param changeInt This is the interval from the message. It is reserved for future use - now
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:5594:	it will always be FOREVER.
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:5595:	\param partID This is the partID from the message.
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:5596:	\param message This is the message sent.
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:5597:	\param mc The ModContext for the pipeline that changed. If a modifier is applied to
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:5598:	multiple objects, then there are ModApps in each pipeline that it is
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:5600:	following example: Say you apply a Bend modifier to a Sphere, a Cylinder
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:5601:	and a Box object. There are three ModApps but only one Bend modifier. Then
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:5602:	you go to the Sphere and adjust its Radius. This will cause
+> C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:5603:	NotifyInputChanged() to be called on the Bend because the Bend's
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:5604:	input changed. However only one of its inputs changed - only the Sphere
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:5605:	changed and not the Cylinder or the Box. Therefore
+> C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:5606:	NotifyInputChanged() will be called once, and the ModContext passed
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:5607:	in will be for the Sphere's changed pipeline. It is possible that all three
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:5608:	objects could change at the same time. If an instanced float controller was
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:5609:	assigned to the radius, width, and height - one parameter for each object -
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:5610:	then the controller was adjusted in the function curve editor, all three
+> C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:5611:	items would change. In this case NotifyInputChanged() would be
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:5612:	called three times on the Bend. Once for each pipeline, once with each
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:5613:	ModContext. */
+> C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:5614:	virtual void NotifyInputChanged(const Interval& changeInt, PartID partID, RefMessage message, ModContext *mc) {}
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:5615://! @}
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:5616:
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:5617://! \name Object Modification
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:5618://! @{ 
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:5619:	// This is the method that is called when the modifier is needed to 
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:5620:	// apply its effect to the object. Note that the INode* is always NULL
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:5621:	// for object space modifiers.
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:5622:	/** This is the method that actually modifies the input object. This method is
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:5729:	This method will call the callback object proc method once for each
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:5730:	application of the modifier.
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:5731:	\param proc The callback object whose proc method is called.
+> C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:5732:	\sa  Class ModContextEnumProc. */
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:5733:	CoreExport virtual void EnumModContexts(ModContextEnumProc *proc);
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:5734:
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:5735:	// This method will return the IDerivedObject and index of this modifier 
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:5736:	// for a given modifier context.
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:5737:	/**	This method will retrieve the IDerivedObject and index of this modifier for
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:5738:	a given modifier context.
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:5739:	\param mc Points to the ModContext for the modifier.
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:5740:	\param derObj A pointer to the IDerivedObject is returned here.
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:5786:	*              considering only nodes.
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:5787:	* \return The node being modified (nullptr if none found)
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:5788:	*/
+> C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:5789:	CoreExport INode* GetNodeFromModContext(ModContext* mc, int& index);
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:5790:	//! @}
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:5791:
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:5792:	// Animatable Overides...
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:5793:	CoreExport SvGraphNodeReference SvTraverseAnimGraph(IGraphObjectManager *gom, Animatable *owner, int id, DWORD flags) override;
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:5794:	CoreExport MSTR SvGetName(IGraphObjectManager *gom, IGraphNode *gNode, bool isBeingEdited) override;
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:5795:	CoreExport bool SvCanSetName(IGraphObjectManager *gom, IGraphNode *gNode) override;
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:5796:	CoreExport bool SvSetName(IGraphObjectManager *gom, IGraphNode *gNode, const MSTR &name) override;
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\object.h:5797:	CoreExport bool SvHandleDoubleClick(IGraphObjectManager *gom, IGraphNode *gNode) override;
+
+
+
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\iparamb2.h:66:#define P_INVISIBLE			0x00000010	//!< not visible in track view (if an animatable)
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\iparamb2.h:67:#define P_RESET_DEFAULT		0x00000020	//!< do not make create params sticky, reset to defaults always
+> C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\iparamb2.h:68:#define P_SUBANIM			0x00000040	//!< non-animatable reference parameter is still a subanim (makes it visible in TV)
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\iparamb2.h:69:#define P_TV_SHOW_ALL		0x00000080	//!< for Tab<> animatables, show all entries even if no controller assigned
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\iparamb2.h:70:#define P_NO_REF			0x00000100	//!< for reference target params do not maintain Reference automatically
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\iparamb2.h:71:#define P_OWNERS_REF		0x00000200	//!< reference parameter maintained by owner, specify owner's reference number via the p_refno tag
+> C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\iparamb2.h:72:#define P_CAN_CONVERT		0x00000400	//!< indicates the p_classid validator is is in a CanConvertoTo() call, rather than as exact class
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\iparamb2.h:73:#define P_SUBTEX			0x00000800	//!< indicates texmap parameter is kept by owner using MtlBase::xSubTexmap protocol, give subtex # in p_subtexno
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\iparamb2.h:74:#define P_VARIABLE_SIZE		0x00001000	//!< Tab<> parameter is variable size allowing scripted changes
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\iparamb2.h:75:#define P_NO_AUTO_LABELS	0x00002000	//!< don't auto-set map & mtl names for associated button UI controls
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\iparamb2.h:76:#define P_SHORT_LABELS		0x00004000	//!< use short auto names for associated button UI controls
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\iparamb2.h:172:#define has_ui(d)		((d).ctrl_count > 0)				//!< this parameter has UI info defined
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\iparamb2.h:173:#define reftarg_type(t) (base_type(t) == TYPE_MTL || base_type(t) == TYPE_TEXMAP || base_type(t) == TYPE_INODE || \
+> C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\iparamb2.h:174:	base_type(t) == TYPE_REFTARG || base_type(t) == TYPE_PBLOCK2 || base_type(t) == TYPE_OBJECT || base_type(t) == TYPE_CONTROL)
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\iparamb2.h:175:
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\iparamb2.h:176:class ParamBlockDesc2;
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\iparamb2.h:177:class ClassDesc;
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\iparamb2.h:178:class PBBitmap;
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\iparamb2.h:520:	\return  TRUE on success; otherwise FALSE.
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\iparamb2.h:521:	\note The ParamType must be one of the following, otherwise no set occurs:
+> C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\iparamb2.h:522:	TYPE_MTL, TYPE_TEXMAP, TYPE_INODE, TYPE_REFTARG, TYPE_PBLOCK2, TYPE_OBJECT, TYPE_CONTROL
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\iparamb2.h:523:	*/
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\iparamb2.h:524:	virtual BOOL SetValue(ParamID id, TimeValue t, ReferenceTarget*	v, int tabIndex=0)=0;
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\iparamb2.h:525:	/*! \remarks Sets the IParamBlock2* value of the specified
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\iparamb2.h:526:	parameter at the specified time.
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\iparamb2.h:741:	\return  TRUE on success; otherwise FALSE.
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\iparamb2.h:742:	\note The ParamType must be one of the following, otherwise no get occurs and v will contain NULL:
+> C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\iparamb2.h:743:	TYPE_MTL, TYPE_TEXMAP, TYPE_INODE, TYPE_REFTARG, TYPE_PBLOCK2, TYPE_OBJECT, TYPE_CONTROL
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\iparamb2.h:744:	*/
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\iparamb2.h:745:	virtual BOOL GetValue(ParamID id, TimeValue t, ReferenceTarget*& v, Interval &ivalid, int tabIndex=0)=0;
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\iparamb2.h:746:	/*! \remarks Retrieves the IParamBlock2* value of the specified parameter
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\iparamb2.h:747:	at the specified time.
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\iparamb2.h:1164:	\return  The ReferenceTarget* value retrieved.
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\iparamb2.h:1165:	\note The ParamType must be one of the following, otherwise no get occurs and a value of NULL will be returned:
+> C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\iparamb2.h:1166:	TYPE_MTL, TYPE_TEXMAP, TYPE_INODE, TYPE_REFTARG, TYPE_PBLOCK2, TYPE_OBJECT, TYPE_CONTROL
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\iparamb2.h:1167:	\note Starting in 3ds Max 2016, please use \ref IParamBlock2::GetReferenceTarget(ParamID,TimeValue,Interval&,int) instead; it supports a validity interval
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\iparamb2.h:1168:	and is more robust in case of invalid parameter IDs.
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\iparamb2.h:1169:	*/
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\iparamb2.h:1170:	virtual ReferenceTarget* GetReferenceTarget(ParamID id, TimeValue t=0, int tabIndex=0)=0;
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\iparamb2.h:1179:	\return  The ReferenceTarget* value retrieved.
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\iparamb2.h:1180:	\note The ParamType must be one of the following, otherwise no get occurs and a value of NULL will be returned:
+> C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\iparamb2.h:1181:	TYPE_MTL, TYPE_TEXMAP, TYPE_INODE, TYPE_REFTARG, TYPE_PBLOCK2, TYPE_OBJECT, TYPE_CONTROL
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\iparamb2.h:1182:	*/
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\iparamb2.h:1183:	ReferenceTarget* GetReferenceTarget(const ParamID id, const TimeValue t, Interval& validity, const int tabIndex = 0);
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\iparamb2.h:1184:
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\iparamb2.h:1185:	/*! \remarks Returns the IParamBlock2* value of the specified
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\iparamb2.h:3340:	<b>P_RESET_DEFAULT</b> \n
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\iparamb2.h:3341:	Indicates to not make creation parameters sticky, rather always reset to default values. \n\n
+> C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\iparamb2.h:3342:	<b>P_SUBANIM</b> \n
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\iparamb2.h:3343:	Indicates this is a non-animatable reference target parameter to be published as a 
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\iparamb2.h:3344:	sub-anim (which makes it visible in Track View) \n\n
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\iparamb2.h:3345:	<b>P_TV_SHOW_ALL</b> \n
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\iparamb2.h:3346:	This is used for Tab\<> animatables, and indicates to show all entries in Track View
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\iparamb2.h:3354:	If neither p_refno or P_OWNERS_REF is set, the parameter block owns and maintains the reference. \n\n
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\iparamb2.h:3355:	<b>P_CAN_CONVERT</b> \n
+> C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\iparamb2.h:3356:	Indicates the p_classID validator is used in a CanConvertoTo() call, rather than as exact classID match. \n\n
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\iparamb2.h:3357:	<b>P_SUBTEX</b> \n
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\iparamb2.h:3358:	Indicates a texmap parameter is kept by the owner using the MtlBase::xSubTexmap methods. 
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\iparamb2.h:3359:	Provide the integer index of the sub-texmap using the param tag p_subtexno. \n\n
+  C:\Program Files\Autodesk\3ds Max 2027 SDK\maxsdk\include\iparamb2.h:3360:	You would use this flag in materials or texmaps that contain other texmaps as parameters, 
+
+
+

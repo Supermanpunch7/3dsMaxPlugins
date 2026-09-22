@@ -1,0 +1,27 @@
+﻿
+FullName                                                                                                                                                                  
+--------                                                                                                                                                                  
+C:\Users\ksi\AppData\Local\Autodesk\3dsMax\2027 - 64bit\ENU\3dsMaxPlugins\ChamferPro\bin\Hybrid\ChamferPro.dlm                                                            
+C:\Users\ksi\AppData\Local\Autodesk\3dsMax\2027 - 64bit\ENU\3dsMaxPlugins\ChamferPro\bin\InheritanceTest\ChamferProNativeTest.dlm                                         
+C:\Users\ksi\AppData\Local\Autodesk\3dsMax\2027 - 64bit\ENU\3dsMaxPlugins\ChamferPro\bin\LineageLab\ChamferproLineageLab.dlm                                              
+C:\Users\ksi\AppData\Local\Autodesk\3dsMax\2027 - 64bit\ENU\3dsMaxPlugins\ChamferPro\bin\NativeTest\ChamferProNativeTest.dlm                                              
+C:\Users\ksi\AppData\Local\Autodesk\3dsMax\2027 - 64bit\ENU\3dsMaxPlugins\ChamferPro\bin\Release\ChamferPro.dlm                                                           
+C:\Users\ksi\AppData\Local\Autodesk\3dsMax\2027 - 64bit\ENU\3dsMaxPlugins\ChamferPro\bin\RenameOnly\ChamferProNativeTest.dlm                                              
+C:\Users\ksi\AppData\Local\Autodesk\3dsMax\2027 - 64bit\ENU\3dsMaxPlugins\ChamferPro\bin\Research\ChamferproResearch.dlm                                                  
+C:\Users\ksi\AppData\Local\Autodesk\3dsMax\2027 - 64bit\ENU\3dsMaxPlugins\ChamferPro\obj\LineageLab\dll\ChamferproLineageLab.dlm                                          
+C:\Users\ksi\AppData\Local\Autodesk\3dsMax\2027 - 64bit\ENU\3dsMaxPlugins\ChamferPro\obj\NativeTest\dll\ChamferProNativeTest.dlm                                          
+C:\Users\ksi\AppData\Local\Autodesk\3dsMax\2027 - 64bit\ENU\3dsMaxPlugins\ChamferPro\obj\Release\dll\ChamferPro.dlm                                                       
+C:\Users\ksi\AppData\Local\Autodesk\3dsMax\2027 - 64bit\ENU\3dsMaxPlugins\ChamferPro\obj\Research\dll\ChamferproResearch.dlm                                              
+C:\Users\ksi\AppData\Local\Autodesk\3dsMax\2027 - 64bit\ENU\3dsMaxPlugins\ChamferPro\obj\x64\Hybrid\dll\ChamferPro.dlm                                                    
+C:\Users\ksi\AppData\Local\Autodesk\3dsMax\2027 - 64bit\ENU\3dsMaxPlugins\OpenSubdivPro\bin\Hybrid\OpenSubdivPro.dlm                                                      
+C:\Users\ksi\AppData\Local\Autodesk\3dsMax\2027 - 64bit\ENU\3dsMaxPlugins\OpenSubdivPro\obj\x64\Hybrid\dll\MeshSmoothPro.dlm                                              
+C:\Users\ksi\AppData\Local\Autodesk\3dsMax\2027 - 64bit\ENU\3dsMaxPlugins\OpenSubdivPro\obj\x64\Hybrid\dll\OpenSubdivPro.dlm                                              
+C:\Users\ksi\AppData\Local\Autodesk\3dsMax\2027 - 64bit\ENU\3dsMaxPlugins\OpenSubdivPro\obj\x64\Hybrid\dll\OpenSubdivPro_centerlockcheck.dlm                              
+C:\Users\ksi\AppData\Local\Autodesk\3dsMax\2027 - 64bit\ENU\3dsMaxPlugins\OpenSubdivPro\obj\x64\Hybrid\dll\OpenSubdivPro_check.dlm                                        
+C:\Users\ksi\AppData\Local\Autodesk\3dsMax\2027 - 64bit\ENU\3dsMaxPlugins\OpenSubdivPro\obj\x64\Hybrid\dll\OpenSubdivPro_endpointcapcheck.dlm                             
+C:\Users\ksi\AppData\Local\Autodesk\3dsMax\2027 - 64bit\ENU\3dsMaxPlugins\OpenSubdivPro\obj\x64\Hybrid\dll\OpenSubdivPro_endpointcheck.dlm                                
+C:\Users\ksi\AppData\Local\Autodesk\3dsMax\2027 - 64bit\ENU\3dsMaxPlugins\OpenSubdivPro\obj\x64\Hybrid\dll\OpenSubdivPro_shapecheck.dlm                                   
+C:\Users\ksi\AppData\Local\Autodesk\3dsMax\2027 - 64bit\ENU\3dsMaxPlugins\OpenSubdivPro\obj\x64\Hybrid\dll\OpenSubdivPro_weightcheck.dlm                                  
+C:\Users\ksi\AppData\Local\Autodesk\3dsMax\2027 - 64bit\ENU\3dsMaxPlugins\OpenSubdivPro\restore_backups\before_isoline_edgeweight_20260918_161806\Hybrid\OpenSubdivPro.dlm
+
+

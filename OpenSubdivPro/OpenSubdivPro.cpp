@@ -363,7 +363,6 @@ bool BuildNativeVertexWeightDeltas(
 
     MNMesh weighted(source);
     const bool sourceHasVertexWeight = weighted.vDataSupport(VDATA_WEIGHT);
-    const bool sourceHasEdgeWeight = weighted.eDataSupport(EDATA_KNOT);
     if (weighted.VDNum() <= VDATA_WEIGHT)
         weighted.setNumVData(VDATA_WEIGHT + 1, TRUE);
     if (weighted.EDNum() <= EDATA_KNOT)
@@ -388,52 +387,12 @@ bool BuildNativeVertexWeightDeltas(
             hasNonNeutralWeight || std::fabs(userValue - 1.0f) > 1.0e-6f;
     }
 
-    // An OpenSubdivPro Edge Weight is a shortcut for assigning the exact same
-    // native MeshSmooth Vertex Weight to both endpoints. Shared endpoints
-    // average the requested edge values, matching a single consistent vertex
-    // value at intersections.
-    if (sourceHasEdgeWeight)
-    {
-        const float* sourceEdgeWeights = source.edgeFloat(EDATA_KNOT);
-        std::vector<float> edgeWeightSums(weighted.numv, 0.0f);
-        std::vector<int> edgeWeightCounts(weighted.numv, 0);
-        for (int edge = 0; edge < source.nume; ++edge)
-        {
-            if (source.e[edge].GetFlag(MN_DEAD))
-                continue;
-            const float edgeWeight = SanitizeEdgeKnot(sourceEdgeWeights[edge]);
-            if (std::fabs(edgeWeight - 1.0f) <= 1.0e-6f)
-                continue;
-            const float nativeEndpointWeight = SanitizeVertexWeight(
-                1.0f / std::max(edgeWeight, 1.0e-4f));
-            const int endpoints[2] = {
-                source.e[edge].v1,
-                source.e[edge].v2 };
-            for (const int endpoint : endpoints)
-            {
-                if (endpoint < 0 || endpoint >= weighted.numv)
-                    continue;
-                edgeWeightSums[endpoint] += nativeEndpointWeight;
-                ++edgeWeightCounts[endpoint];
-            }
-            hasNonNeutralWeight = true;
-        }
-        for (int vertex = 0; vertex < weighted.numv; ++vertex)
-        {
-            if (edgeWeightCounts[vertex] > 0)
-            {
-                requestedVertexWeights[vertex] =
-                    edgeWeightSums[vertex] /
-                    static_cast<float>(edgeWeightCounts[vertex]);
-            }
-        }
-    }
-
     for (int vertex = 0; vertex < weighted.numv; ++vertex)
         vertexWeights[vertex] = requestedVertexWeights[vertex];
 
-    // NURMS Edge Knot is kept neutral because Edge Weight is intentionally
-    // translated to the two endpoint Vertex Weights above.
+    // Edge Weight is a data channel for modifiers above OpenSubdivPro. It must
+    // not change this modifier's surface. Keep native NURMS edge knots neutral
+    // while evaluating the Vertex Weight-only spacing delta.
     std::fill(
         weighted.edgeFloat(EDATA_KNOT),
         weighted.edgeFloat(EDATA_KNOT) + weighted.nume,
@@ -1659,9 +1618,8 @@ public:
         const std::vector<int> faceSources =
             PropagateFaceSources(*refiner, source.numf, maxLevel);
 
-        // Edge Weight is evaluated by Max's native NURMS stencil below after
-        // being translated to equal endpoint Vertex Weights. Do not apply
-        // the former post-subdivision spatial warp here.
+        // Only Vertex Weight affects this modifier's surface. Edge Weight is
+        // propagated unchanged for modifiers above OpenSubdivPro.
 
         // Preserve the Pixar OpenSubdiv surface (including all crease data)
         // and add only the native MeshSmooth weighted-vs-neutral difference.
@@ -1687,6 +1645,7 @@ public:
         }
 
         MNMesh output;
+        output.dispFlags = source.dispFlags;
         output.setNumVerts(finalVertexCount);
         for (int vertex = 0; vertex < finalVertexCount; ++vertex)
         {
@@ -1763,6 +1722,11 @@ public:
             PropagateVertexData(*refiner, std::move(baseVertexWeight), maxLevel, 1.0f);
         const std::vector<float> finalVertexCrease =
             PropagateVertexData(*refiner, std::move(baseVertexCrease), maxLevel);
+        const std::vector<float> finalVertexCage =
+            PropagateVertexData(
+                *refiner,
+                std::vector<float>(source.numv, 1.0f),
+                maxLevel);
 
         std::unordered_map<std::uint64_t, int> sourceEdgeByVertices;
         sourceEdgeByVertices.reserve(source.nume);
@@ -1845,6 +1809,10 @@ public:
             if (outputVertexCrease)
                 outputVertexCrease[vertex] =
                     vertex < static_cast<int>(finalVertexCrease.size()) ? finalVertexCrease[vertex] : 0.0f;
+            output.v[vertex].SetFlag(
+                MN_VERT_SUBDIVISION_CORNER,
+                vertex < static_cast<int>(finalVertexCage.size()) &&
+                    finalVertexCage[vertex] > 0.5f);
         }
 
         output.setNumEData(EDATA_DEPTH + 1);
@@ -1893,8 +1861,16 @@ public:
             if (outputEdgeDepth)
                 outputEdgeDepth[edge] = depth;
             output.e[edge].SetFlag(MN_USER, hard);
-            output.e[edge].SetFlag(MN_EDGE_INVIS, isolineDisplay && !cage);
+            output.e[edge].SetFlag(MN_EDGE_SUBDIVISION_BOUNDARY, cage);
         }
+
+        // Match 3ds Max's native OpenSubdiv/Edit Poly isoline implementation.
+        // This display-only flag hides generated subdivision interiors while
+        // preserving real edge visibility, shading, and downstream channels.
+        if (isolineDisplay)
+            output.SetDispFlag(MNDISP_HIDE_SUBDIVISION_INTERIORS);
+        else
+            output.ClearDispFlag(MNDISP_HIDE_SUBDIVISION_INTERIORS);
 
         // Editable Poly's Hard/Smooth buttons are represented by the smoothing
         // relationship of adjacent faces. Rebuild those groups from the direct
@@ -1905,6 +1881,7 @@ public:
 
         output.InvalidateGeomCache();
         polyObject->GetMesh() = output;
+        polyObject->GetMesh().InvalidateHardwareMesh();
 
         if (smoothResult)
         {
